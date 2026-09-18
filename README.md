@@ -55,14 +55,18 @@ npm run dev
 
 Open http://localhost:5173
 
-## Optional: richer AI via OpenAI
+## Optional: richer server-side AI analysis
 
 Create a `.env` file:
 
 ```
-VITE_OPENAI_API_KEY=sk-...
+AI_API_KEY=your-provider-key
 ```
 
-Then the **AI Analysis** button calls OpenAI instead of the local heuristic.
+You can also set `AI_BASE_URL` and `AI_MODEL` for an OpenAI-compatible
+provider. On Netlify, configure these values under **Site configuration →
+Environment variables** instead of committing a `.env` file. The **AI
+Analysis** button then uses the server-side provider instead of the local
+heuristic.
 
 > Analysis is automated and not investment advice.

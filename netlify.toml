@@ -3,6 +3,11 @@
   publish = "dist"
   functions = "netlify/functions"
 
+[build.environment]
+  # These values are public provider configuration and intentionally appear in
+  # the server source as defaults. Keep secret scanning enabled for AI_API_KEY.
+  SECRETS_SCAN_OMIT_KEYS = "AI_BASE_URL,AI_MODEL"
+
 [functions]
   node_bundler = "esbuild"
 
