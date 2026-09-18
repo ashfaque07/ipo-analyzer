@@ -3,7 +3,10 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+// When bundled to CommonJS (e.g. Netlify Functions via esbuild) `import.meta.url`
+// is undefined, so guard against it. `__dirname` is only needed for the local
+// data-file path, which isn't used on serverless (we write to /tmp there).
+const __dirname = import.meta.url ? dirname(fileURLToPath(import.meta.url)) : process.cwd()
 
 export const PORT = process.env.PORT || 8787
 
