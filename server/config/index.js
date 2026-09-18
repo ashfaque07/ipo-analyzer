@@ -8,7 +8,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export const PORT = process.env.PORT || 8787
 
 // JSON file where every IPO ever seen is persisted for future reference.
-export const DATA_FILE = join(__dirname, '..', 'data', 'ipos.json')
+// On serverless platforms (e.g. Netlify) the app filesystem is read-only, so
+// fall back to the writable /tmp directory there.
+export const DATA_FILE = process.env.NETLIFY
+  ? '/tmp/ipos.json'
+  : join(__dirname, '..', 'data', 'ipos.json')
 
 // InvestorGain report API.
 // Path: /cloud/v2/report/data-read/{reportId}/{page}/{month}/{year}/{financialYear}/{sort}/{param}
