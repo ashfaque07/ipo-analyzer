@@ -7,6 +7,7 @@ export default function Toolbar({ search, onSearch, filter, onFilter, counts = {
     <div className="toolbar">
       <input
         className="search"
+        id="search"
         placeholder="Search company…"
         value={search}
         onChange={(e) => onSearch(e.target.value)}
