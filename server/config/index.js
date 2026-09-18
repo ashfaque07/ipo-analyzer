@@ -11,9 +11,17 @@ const __dirname = import.meta.url ? dirname(fileURLToPath(import.meta.url)) : pr
 export const PORT = process.env.PORT || 8787
 
 // JSON file where every IPO ever seen is persisted for future reference.
-// On serverless platforms (e.g. Netlify) the app filesystem is read-only, so
-// fall back to the writable /tmp directory there.
-export const DATA_FILE = process.env.NETLIFY
+// On serverless platforms (Netlify / AWS Lambda) the app filesystem is
+// read-only except for /tmp, so persist there. We detect the serverless
+// runtime via common env vars set by those platforms.
+const IS_SERVERLESS = Boolean(
+  process.env.NETLIFY ||
+    process.env.LAMBDA_TASK_ROOT ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.AWS_EXECUTION_ENV
+)
+
+export const DATA_FILE = IS_SERVERLESS
   ? '/tmp/ipos.json'
   : join(__dirname, '..', 'data', 'ipos.json')
 
