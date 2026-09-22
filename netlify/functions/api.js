@@ -5,6 +5,8 @@
 
 import { getIpos } from '../../server/services/ipoService.js'
 import { isAiConfigured, streamAnalysis } from '../../server/services/analysisService.js'
+import { streamStockAnalysis } from '../../server/services/stockAnalysisService.js'
+import { readTrending, refreshTrending } from '../../server/services/trendingService.js'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -27,6 +29,80 @@ export const handler = async (event) => {
         statusCode: 200,
         headers: { ...CORS, 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
+      }
+    }
+
+    if (path.includes('/trending')) {
+      const type = event.queryStringParameters?.type || 'gainers'
+      const force = event.queryStringParameters?.refresh === '1'
+      try {
+        const data = force ? await refreshTrending(type) : await readTrending(type)
+        return {
+          statusCode: 200,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }
+      } catch (err) {
+        return {
+          statusCode: 502,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            source: 'error',
+            type,
+            count: 0,
+            stocks: [],
+            error: `Could not fetch trending stocks from NSE: ${err.message}`
+          })
+        }
+      }
+    }
+
+    if (path.includes('/analyze-stock')) {
+      if (method !== 'POST') {
+        return { statusCode: 405, headers: CORS, body: 'Method not allowed' }
+      }
+      if (!isAiConfigured()) {
+        return {
+          statusCode: 503,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'AI provider not configured. Set AI_API_KEY.' })
+        }
+      }
+
+      let query
+      try {
+        query = JSON.parse(event.body || '{}')?.query?.trim()
+      } catch {
+        return {
+          statusCode: 400,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid JSON body.' })
+        }
+      }
+      if (!query) {
+        return {
+          statusCode: 400,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing stock name or ticker.' })
+        }
+      }
+
+      let stockText = ''
+      try {
+        for await (const token of streamStockAnalysis(query)) {
+          stockText += token
+        }
+      } catch (err) {
+        return {
+          statusCode: 502,
+          headers: { ...CORS, 'Content-Type': 'text/plain; charset=utf-8' },
+          body: `${stockText}\n\n[Analysis failed: ${err.message}]`
+        }
+      }
+      return {
+        statusCode: 200,
+        headers: { ...CORS, 'Content-Type': 'text/plain; charset=utf-8' },
+        body: stockText
       }
     }
 

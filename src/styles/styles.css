@@ -332,6 +332,115 @@ h1 {
 .cursor { display: inline-block; color: var(--brand); font-weight: 700; animation: blink 1s steps(2, start) infinite; }
 @keyframes blink { to { visibility: hidden; } }
 
+/* ---------- View navigation ---------- */
+.view-nav {
+  display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.view-tab {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+  padding: 9px 18px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: all 0.15s ease;
+}
+.view-tab:hover { border-color: var(--brand); color: var(--text); transform: translateY(-1px); }
+.view-tab.active {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  border-color: transparent; color: #fff;
+  box-shadow: 0 6px 16px -6px rgba(99, 102, 241, 0.7);
+}
+
+/* ---------- Stock Analyzer ---------- */
+.stock-search { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.stock-input {
+  flex: 1 1 260px;
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 16px; border-radius: 10px; font-size: 15px; outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.stock-input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
+.stock-input::placeholder { color: var(--text-faint); }
+.stock-btn {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  border: none; color: #fff; padding: 12px 22px; border-radius: 10px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+.stock-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px -6px rgba(99, 102, 241, 0.7); }
+.stock-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.stock-hint { margin-top: 8px; }
+.stock-result {
+  background: linear-gradient(180deg, var(--card-grad-top), var(--card-grad-bottom));
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow);
+  animation: modal-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ---------- Trending Stocks ---------- */
+.trending-head {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  justify-content: space-between; margin-bottom: 18px;
+}
+.trending-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.trend-tab {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+  padding: 8px 16px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.15s ease;
+}
+.trend-tab:hover { border-color: var(--brand); color: var(--text); transform: translateY(-1px); }
+.trend-tab.active {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  border-color: transparent; color: #fff;
+  box-shadow: 0 6px 16px -6px rgba(99, 102, 241, 0.7);
+}
+.trending-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.trending-time { color: var(--text-faint); font-size: 12px; }
+.trend-refresh {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+  padding: 8px 14px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600;
+  transition: all 0.15s ease;
+}
+.trend-refresh:hover:not(:disabled) { border-color: var(--brand); color: var(--text); }
+.trend-refresh:disabled { opacity: 0.55; cursor: default; }
+
+.trending-table-wrap {
+  overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.trending-table {
+  width: 100%; border-collapse: collapse; font-size: 13px; min-width: 780px;
+  background: linear-gradient(180deg, var(--card-grad-top), var(--card-grad-bottom));
+}
+.trending-table th, .trending-table td {
+  padding: 11px 14px; text-align: right; white-space: nowrap;
+  border-bottom: 1px solid var(--border-soft);
+}
+.trending-table thead th {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--surface-2); color: var(--text-dim); font-weight: 700;
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.trending-table .ta-left { text-align: left; }
+.trending-table tbody tr { transition: background 0.12s ease; }
+.trending-table tbody tr:hover { background: rgba(99, 102, 241, 0.08); }
+.trending-table tbody tr:last-child td { border-bottom: none; }
+.trending-table .sym { font-weight: 700; color: var(--text); }
+.trending-table .muted { color: var(--text-faint); }
+.trending-table .pos { color: var(--up); font-weight: 700; }
+.trending-table .neg { color: var(--down); font-weight: 700; }
+.trending-table .reason {
+  color: var(--text-dim); max-width: 220px; white-space: normal;
+  font-size: 12px; line-height: 1.35;
+}
+.trending-table tr.stale td { opacity: 0.6; }
+.trending-table tr.stale:hover { background: rgba(148, 163, 184, 0.06); }
+.stale-badge {
+  display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  background: rgba(148, 163, 184, 0.18); color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
   .app { padding: 20px 16px 40px; }

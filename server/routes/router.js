@@ -2,6 +2,8 @@
 
 import { handleGetIpos } from '../controllers/ipoController.js'
 import { handleAnalyze } from '../controllers/analysisController.js'
+import { handleAnalyzeStock } from '../controllers/stockAnalysisController.js'
+import { handleGetTrending } from '../controllers/trendingController.js'
 
 export async function router(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -16,6 +18,16 @@ export async function router(req, res) {
 
   if (req.url.startsWith('/api/ipos')) {
     await handleGetIpos(req, res)
+    return
+  }
+
+  if (req.url.startsWith('/api/trending')) {
+    await handleGetTrending(req, res)
+    return
+  }
+
+  if (req.url.startsWith('/api/analyze-stock')) {
+    await handleAnalyzeStock(req, res)
     return
   }
 

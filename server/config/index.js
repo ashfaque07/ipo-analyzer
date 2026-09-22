@@ -25,6 +25,40 @@ export const DATA_FILE = IS_SERVERLESS
   ? '/tmp/ipos.json'
   : join(__dirname, '..', 'data', 'ipos.json')
 
+// JSON file where the daily trending-stocks snapshot is persisted (per type).
+export const TRENDING_FILE = IS_SERVERLESS
+  ? '/tmp/trending.json'
+  : join(__dirname, '..', 'data', 'trending.json')
+
+// Indian market (NSE) hours in IST used to gate the scheduled refresh.
+export const IST_OFFSET_MIN = 5 * 60 + 30 // UTC+5:30
+export const MARKET_OPEN_MIN = 9 * 60 // 09:00 IST — day start
+export const MARKET_CLOSE_MIN = 15 * 60 + 30 // 15:30 IST
+
+// NSE trading holidays (market fully closed) as IST YYYY-MM-DD strings.
+// This is a STATIC FALLBACK only — at runtime the holiday list is fetched
+// dynamically from the NSE holiday-master API (see holidayService.js) and
+// cached. These dates are merged in so we never regress if the API is down.
+// Weekends are handled separately.
+export const NSE_HOLIDAYS = new Set([
+  // 2026
+  '2026-01-26', // Republic Day
+  '2026-03-04', // Holi
+  '2026-03-21', // Id-Ul-Fitr (Ramzan Id)
+  '2026-03-31', // Ram Navami
+  '2026-04-01', // Mahavir Jayanti
+  '2026-04-03', // Good Friday
+  '2026-04-14', // Dr. Baba Saheb Ambedkar Jayanti
+  '2026-05-01', // Maharashtra Day
+  '2026-05-28', // Bakri Id
+  '2026-08-15', // Independence Day
+  '2026-08-25', // Ganesh Chaturthi
+  '2026-10-02', // Mahatma Gandhi Jayanti / Dussehra
+  '2026-10-20', // Diwali (tentative)
+  '2026-11-10', // Guru Nanak Jayanti
+  '2026-12-25' // Christmas
+])
+
 // InvestorGain report API.
 // Path: /cloud/v2/report/data-read/{reportId}/{page}/{month}/{year}/{financialYear}/{sort}/{param}
 export const API_HOST = 'https://webnodejs.investorgain.com'

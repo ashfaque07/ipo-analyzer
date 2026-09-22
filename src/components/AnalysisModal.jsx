@@ -1,9 +1,20 @@
 // Modal that displays the AI analysis result for one IPO.
 
+import { useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 export default function AnalysisModal({ analysis, streaming, onClose }) {
+  // Lock background scroll while the modal is open.
+  useEffect(() => {
+    if (!analysis) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previous
+    }
+  }, [analysis])
+
   if (!analysis) return null
 
   const { ipo, result } = analysis

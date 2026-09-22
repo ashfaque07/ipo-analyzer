@@ -95,14 +95,19 @@ function buildMessages(ipo) {
 // retries transient errors (503/429) with backoff and falls back across models,
 // then caches the full result.
 export async function* streamAnalysis(ipo) {
-  const key = cacheKey(ipo)
+  yield* streamCompletion(buildMessages(ipo), cacheKey(ipo))
+}
+
+// Generic streaming completion helper shared by IPO and stock analysis.
+// Yields text chunks from the AI provider, retries transient errors (503/429)
+// with backoff, falls back across models, and caches the full result by key.
+export async function* streamCompletion(messages, key) {
   const cached = getCached(key)
   if (cached) {
     yield cached
     return
   }
 
-  const messages = buildMessages(ipo)
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   let lastError = null
 
