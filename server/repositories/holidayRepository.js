@@ -19,15 +19,16 @@ const HOLIDAY_FILE = IS_SERVERLESS
 const BLOB_STORE = 'ipo-analyzer'
 const blobKey = (year) => `holidays:${year}`
 
-let blobStorePromise
 async function getBlobStore() {
   if (!IS_SERVERLESS) return null
-  if (!blobStorePromise) {
-    blobStorePromise = import('@netlify/blobs')
-      .then(({ getStore }) => getStore(BLOB_STORE))
-      .catch(() => null)
+  // Not memoized: a cached store on a warm Lambda holds a request-scoped token
+  // that expires ("Token expired").
+  try {
+    const { getStore } = await import('@netlify/blobs')
+    return getStore(BLOB_STORE)
+  } catch {
+    return null
   }
-  return blobStorePromise
 }
 
 // Returns the cached holiday entry for a year, or null. Shape:

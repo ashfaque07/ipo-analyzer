@@ -89,7 +89,7 @@ export default function TrendingStocks() {
                   <th>Volume</th>
                   <th>Turnover (₹L)</th>
                   <th className="ta-left">Reason (Trending)</th>
-                  <th>Added</th>
+                  <th>Created</th>
                   <th>Modified</th>
                 </tr>
               </thead>

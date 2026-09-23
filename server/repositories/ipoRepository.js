@@ -13,20 +13,19 @@ import { DATA_FILE, IS_SERVERLESS } from '../config/index.js'
 const BLOB_STORE = 'ipo-analyzer'
 const BLOB_KEY = 'ipos'
 
-// Lazily create a Netlify Blobs store. Returns null if Blobs is unavailable
-// (e.g. not running on Netlify), so callers can fall back to the filesystem.
-let blobStorePromise
+// Create a Netlify Blobs store fresh each call. Returns null if Blobs is
+// unavailable (e.g. not running on Netlify), so callers can fall back to the
+// filesystem. Not memoized: a cached store on a warm Lambda holds a
+// request-scoped token that expires ("Token expired").
 async function getBlobStore() {
   if (!IS_SERVERLESS) return null
-  if (!blobStorePromise) {
-    blobStorePromise = import('@netlify/blobs')
-      .then(({ getStore }) => getStore(BLOB_STORE))
-      .catch((err) => {
-        console.error('[ipos] Netlify Blobs unavailable, using ephemeral /tmp:', err?.message)
-        return null
-      })
+  try {
+    const { getStore } = await import('@netlify/blobs')
+    return getStore(BLOB_STORE)
+  } catch (err) {
+    console.error('[ipos] Netlify Blobs unavailable, using ephemeral /tmp:', err?.message)
+    return null
   }
-  return blobStorePromise
 }
 
 export async function readStore() {

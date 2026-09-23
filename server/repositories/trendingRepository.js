@@ -13,22 +13,23 @@ import { TRENDING_FILE, IS_SERVERLESS } from '../config/index.js'
 const BLOB_STORE = 'ipo-analyzer'
 const blobKey = (type) => `trending:${type}`
 
-// Lazily create a Netlify Blobs store. Returns null if Blobs is unavailable
-// (e.g. not running on Netlify) so callers can fall back to the filesystem.
-// On serverless we log failures loudly, because falling back to /tmp there is
-// ephemeral (wiped on cold starts) and would silently lose the daily snapshot.
-let blobStorePromise
+// Create a Netlify Blobs store. Returns null if Blobs is unavailable (e.g. not
+// running on Netlify) so callers can fall back to the filesystem. On serverless
+// we log failures loudly, because falling back to /tmp there is ephemeral
+// (wiped on cold starts) and would silently lose the daily snapshot.
+//
+// The store is created fresh on every call (not memoized across invocations):
+// on a warm Lambda a cached store holds a request-scoped token that expires,
+// causing "Token expired" errors. `getStore` is cheap, so this is safe.
 async function getBlobStore() {
   if (!IS_SERVERLESS) return null
-  if (!blobStorePromise) {
-    blobStorePromise = import('@netlify/blobs')
-      .then(({ getStore }) => getStore(BLOB_STORE))
-      .catch((err) => {
-        console.error('[trending] Netlify Blobs unavailable, using ephemeral /tmp:', err?.message)
-        return null
-      })
+  try {
+    const { getStore } = await import('@netlify/blobs')
+    return getStore(BLOB_STORE)
+  } catch (err) {
+    console.error('[trending] Netlify Blobs unavailable, using ephemeral /tmp:', err?.message)
+    return null
   }
-  return blobStorePromise
 }
 
 export async function readSnapshot(type) {
