@@ -1,9 +1,9 @@
 // Service layer: fetches live trending stocks (top gainers / losers) from NSE.
 //
-// NSE's public API rejects requests that don't carry the cookies its website
-// sets, so we first hit a normal page to obtain those cookies and then call the
-// JSON API with them. We read the "All Securities" (allSec) bucket, which the
-// user is interested in.
+// We try NSE's JSON API directly (no cookies) first, which usually works and
+// avoids downloading a heavy HTML page just to obtain cookies. Only if that
+// fails (NSE bot-protection challenges some datacenter IPs) do we fall back to
+// the cookie handshake and retry. We read the "All Securities" (allSec) bucket.
 //
 // A daily snapshot is persisted so every stock keeps a `createdAt` (set when
 // the trading day starts, i.e. the first refresh at/after 09:00 IST) and a
@@ -38,6 +38,29 @@ async function getCookies() {
   return cookies.map((c) => c.split(';')[0]).join('; ')
 }
 
+// Fetch an NSE JSON endpoint, trying without cookies first and falling back to
+// the cookie handshake only if the direct call fails or returns non-JSON.
+async function fetchNseJson(url) {
+  // Attempt 1: direct, no cookies (cheap — avoids the heavy HTML page).
+  try {
+    const res = await fetch(url, { headers: BROWSER_HEADERS })
+    if (res.ok) {
+      const json = await res.json()
+      return json
+    }
+  } catch {
+    /* fall through to cookie handshake */
+  }
+
+  // Attempt 2: with a fresh cookie jar (for IPs NSE challenges).
+  const cookie = await getCookies()
+  const res = await fetch(url, { headers: { ...BROWSER_HEADERS, Cookie: cookie } })
+  if (!res.ok) {
+    throw new Error(`NSE responded with status ${res.status}`)
+  }
+  return res.json()
+}
+
 // Map a raw NSE security row into a clean, UI-friendly object.
 function normalizeStock(row) {
   return {
@@ -62,17 +85,11 @@ function normalizeStock(row) {
 // Fetch the top gainers or losers ("All Securities" bucket) from NSE.
 export async function getTrendingStocks(rawType = 'gainers') {
   const type = NSE_INDEX[rawType] ? rawType : 'gainers'
-  const cookie = await getCookies()
 
-  const res = await fetch(`${NSE_BASE}/api/live-analysis-variations?index=${NSE_INDEX[type]}`, {
-    headers: { ...BROWSER_HEADERS, Cookie: cookie }
-  })
+  const json = await fetchNseJson(
+    `${NSE_BASE}/api/live-analysis-variations?index=${NSE_INDEX[type]}`
+  )
 
-  if (!res.ok) {
-    throw new Error(`NSE responded with status ${res.status}`)
-  }
-
-  const json = await res.json()
   const bucket = json.allSec
   const rows = Array.isArray(bucket?.data) ? bucket.data : []
 

@@ -36,15 +36,25 @@ async function getCookies() {
   return cookies.map((c) => c.split(';')[0]).join('; ')
 }
 
+// Fetch an NSE JSON endpoint, trying without cookies first and falling back to
+// the cookie handshake only if the direct call fails.
+async function fetchNseJson(url) {
+  try {
+    const res = await fetch(url, { headers: BROWSER_HEADERS })
+    if (res.ok) return await res.json()
+  } catch {
+    /* fall through to cookie handshake */
+  }
+
+  const cookie = await getCookies()
+  const res = await fetch(url, { headers: { ...BROWSER_HEADERS, Cookie: cookie } })
+  if (!res.ok) throw new Error(`NSE holiday API responded with status ${res.status}`)
+  return res.json()
+}
+
 // Fetch the Capital Market (CM) trading holidays for the current year from NSE.
 async function fetchHolidaysFromNse() {
-  const cookie = await getCookies()
-  const res = await fetch(`${NSE_BASE}/api/holiday-master?type=trading`, {
-    headers: { ...BROWSER_HEADERS, Cookie: cookie }
-  })
-  if (!res.ok) throw new Error(`NSE holiday API responded with status ${res.status}`)
-
-  const json = await res.json()
+  const json = await fetchNseJson(`${NSE_BASE}/api/holiday-master?type=trading`)
   const rows = Array.isArray(json?.CM) ? json.CM : []
   return rows
     .map((r) => toIsoDate(r.tradingDate))
