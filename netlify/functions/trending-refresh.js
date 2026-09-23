@@ -12,9 +12,14 @@
 // while preserving each stock's original `createdAt`.
 
 import { schedule } from '@netlify/functions'
+import { connectLambda } from '@netlify/blobs'
 import { refreshTrending, isMarketOpen, loadHolidays } from '../../server/services/trendingService.js'
 
-export const handler = schedule('*/15 3-10 * * *', async () => {
+export const handler = schedule('*/15 3-10 * * *', async (event) => {
+  // Legacy (v1) functions don't auto-configure Netlify Blobs; wire it in so the
+  // snapshot persists durably instead of falling back to ephemeral /tmp.
+  connectLambda(event)
+
   // Load the dynamic NSE holiday list (cached) before gating on market hours.
   await loadHolidays()
 

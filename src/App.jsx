@@ -8,13 +8,27 @@ import TrendingStocks from './components/TrendingStocks.jsx'
 import { useIpos } from './hooks/useIpos.js'
 import { useAnalysis } from './hooks/useAnalysis.js'
 import { useTheme } from './hooks/useTheme.js'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function App() {
   const { ipos, source, loading, error, filter, setFilter, search, setSearch, filtered, counts, reload } = useIpos()
   const { analysis, analyzing, streaming, analyze, close } = useAnalysis()
   const { theme, toggle } = useTheme()
-  const [view, setView] = useState('ipos')
+  const [view, setView] = useState(() => {
+    try {
+      return localStorage.getItem('view') || 'ipos'
+    } catch {
+      return 'ipos'
+    }
+  })
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('view', view)
+    } catch {
+      // ignore storage errors
+    }
+  }, [view])
 
   return (
     <div className="app">

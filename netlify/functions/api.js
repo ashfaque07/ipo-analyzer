@@ -3,6 +3,7 @@
 // Calls the shared service layer directly (no serverless-http wrapper), which
 // is more reliable and easier to debug on Netlify.
 
+import { connectLambda } from '@netlify/blobs'
 import { getIpos } from '../../server/services/ipoService.js'
 import { isAiConfigured, streamAnalysis } from '../../server/services/analysisService.js'
 import { streamStockAnalysis } from '../../server/services/stockAnalysisService.js'
@@ -20,6 +21,10 @@ const CORS = {
 }
 
 export const handler = async (event) => {
+  // Legacy (v1) Netlify Functions don't auto-configure Netlify Blobs; wire the
+  // request context in so getStore() works.
+  connectLambda(event)
+
   const method = event.httpMethod
   const path = event.path || ''
 
