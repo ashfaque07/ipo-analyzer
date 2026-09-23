@@ -28,16 +28,16 @@ export default function App() {
           📈 IPOs
         </button>
         <button
-          className={`view-tab ${view === 'stocks' ? 'active' : ''}`}
-          onClick={() => setView('stocks')}
-        >
-          🏦 Stock Analysis
-        </button>
-        <button
           className={`view-tab ${view === 'trending' ? 'active' : ''}`}
           onClick={() => setView('trending')}
         >
           🔥 Trending
+        </button>
+        <button
+          className={`view-tab ${view === 'stocks' ? 'active' : ''}`}
+          onClick={() => setView('stocks')}
+        >
+          🏦 Stock Analysis
         </button>
       </nav>
 

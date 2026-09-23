@@ -39,6 +39,9 @@ export default function Header({ view = 'ipos', source, count, onRefresh, theme,
         {view === 'ipos' && source === 'live' && <span className="badge">Live · {count} IPOs</span>}
       </p>
       <div className="header-actions">
+        {view === 'ipos' && (
+          <button className="refresh" onClick={onRefresh}>↻ Refresh</button>
+        )}
         <button
           className="theme-toggle"
           onClick={onToggleTheme}
@@ -47,9 +50,6 @@ export default function Header({ view = 'ipos', source, count, onRefresh, theme,
         >
           {theme === 'dark' ? '☀️' : '🌙'}
         </button>
-        {view === 'ipos' && (
-          <button className="refresh" onClick={onRefresh}>↻ Refresh</button>
-        )}
       </div>
     </header>
   )
