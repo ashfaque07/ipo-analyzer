@@ -15,13 +15,18 @@ const blobKey = (type) => `trending:${type}`
 
 // Lazily create a Netlify Blobs store. Returns null if Blobs is unavailable
 // (e.g. not running on Netlify) so callers can fall back to the filesystem.
+// On serverless we log failures loudly, because falling back to /tmp there is
+// ephemeral (wiped on cold starts) and would silently lose the daily snapshot.
 let blobStorePromise
 async function getBlobStore() {
   if (!IS_SERVERLESS) return null
   if (!blobStorePromise) {
     blobStorePromise = import('@netlify/blobs')
       .then(({ getStore }) => getStore(BLOB_STORE))
-      .catch(() => null)
+      .catch((err) => {
+        console.error('[trending] Netlify Blobs unavailable, using ephemeral /tmp:', err?.message)
+        return null
+      })
   }
   return blobStorePromise
 }
@@ -31,7 +36,8 @@ export async function readSnapshot(type) {
   if (blobs) {
     try {
       return (await blobs.get(blobKey(type), { type: 'json' })) || null
-    } catch {
+    } catch (err) {
+      console.error(`[trending] Blob read failed for ${type}:`, err?.message)
       return null
     }
   }
@@ -47,8 +53,13 @@ export async function readSnapshot(type) {
 export async function writeSnapshot(type, snapshot) {
   const blobs = await getBlobStore()
   if (blobs) {
-    await blobs.setJSON(blobKey(type), snapshot)
-    return
+    try {
+      await blobs.setJSON(blobKey(type), snapshot)
+      return
+    } catch (err) {
+      console.error(`[trending] Blob write failed for ${type}:`, err?.message)
+      throw err
+    }
   }
 
   let all = {}

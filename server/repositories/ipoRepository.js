@@ -21,7 +21,10 @@ async function getBlobStore() {
   if (!blobStorePromise) {
     blobStorePromise = import('@netlify/blobs')
       .then(({ getStore }) => getStore(BLOB_STORE))
-      .catch(() => null)
+      .catch((err) => {
+        console.error('[ipos] Netlify Blobs unavailable, using ephemeral /tmp:', err?.message)
+        return null
+      })
   }
   return blobStorePromise
 }
@@ -32,7 +35,8 @@ export async function readStore() {
     try {
       const parsed = await blobs.get(BLOB_KEY, { type: 'json' })
       return Array.isArray(parsed) ? parsed : []
-    } catch {
+    } catch (err) {
+      console.error('[ipos] Blob read failed:', err?.message)
       return []
     }
   }
@@ -49,8 +53,13 @@ export async function readStore() {
 async function writeStore(ipos) {
   const blobs = await getBlobStore()
   if (blobs) {
-    await blobs.setJSON(BLOB_KEY, ipos)
-    return
+    try {
+      await blobs.setJSON(BLOB_KEY, ipos)
+      return
+    } catch (err) {
+      console.error('[ipos] Blob write failed:', err?.message)
+      throw err
+    }
   }
 
   await mkdir(dirname(DATA_FILE), { recursive: true })

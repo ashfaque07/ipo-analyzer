@@ -6,7 +6,12 @@
 import { getIpos } from '../../server/services/ipoService.js'
 import { isAiConfigured, streamAnalysis } from '../../server/services/analysisService.js'
 import { streamStockAnalysis } from '../../server/services/stockAnalysisService.js'
-import { readTrending, refreshTrending } from '../../server/services/trendingService.js'
+import {
+  readTrending,
+  refreshTrending,
+  loadHolidays,
+  isMarketOpen
+} from '../../server/services/trendingService.js'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -29,6 +34,38 @@ export const handler = async (event) => {
         statusCode: 200,
         headers: { ...CORS, 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
+      }
+    }
+
+    if (path.includes('/trending-refresh')) {
+      try {
+        await loadHolidays()
+        const marketOpen = isMarketOpen()
+        const results = []
+        for (const type of ['gainers', 'losers']) {
+          try {
+            const snap = await refreshTrending(type)
+            results.push({
+              type,
+              count: snap.count,
+              dayStartedAt: snap.dayStartedAt,
+              updatedAt: snap.updatedAt
+            })
+          } catch (err) {
+            results.push({ type, error: err.message })
+          }
+        }
+        return {
+          statusCode: 200,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ marketOpen, results })
+        }
+      } catch (err) {
+        return {
+          statusCode: 502,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: err.message })
+        }
       }
     }
 
