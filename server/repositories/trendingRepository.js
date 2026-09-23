@@ -31,16 +31,11 @@ async function getBlobStore() {
   return blobStorePromise
 }
 
-export async function readSnapshot(type, { strong = false } = {}) {
+export async function readSnapshot(type) {
   const blobs = await getBlobStore()
   if (blobs) {
     try {
-      // Netlify Blobs reads are eventually consistent by default. The
-      // read-modify-write refresh path must use strong consistency, otherwise a
-      // stale read makes existing stocks look new and resets their createdAt.
-      const opts = { type: 'json' }
-      if (strong) opts.consistency = 'strong'
-      return (await blobs.get(blobKey(type), opts)) || null
+      return (await blobs.get(blobKey(type), { type: 'json' })) || null
     } catch (err) {
       console.error(`[trending] Blob read failed for ${type}:`, err?.message)
       return null

@@ -147,7 +147,7 @@ export function isMarketOpen(date = new Date()) {
 export async function refreshTrending(rawType = 'gainers') {
   const type = NSE_INDEX[rawType] ? rawType : 'gainers'
   const live = await getTrendingStocks(type)
-  const prev = await readSnapshot(type, { strong: true })
+  const prev = await readSnapshot(type)
 
   const now = new Date().toISOString()
   const isNewDay = !prev?.dayStartedAt || istDayKey(new Date(prev.dayStartedAt)) !== istDayKey()
