@@ -62,23 +62,31 @@ function buildMessages(ipo) {
         'Given structured IPO data (grey market premium, platform rating, subscription, ' +
         'P/E, anchor participation, issue size, dates and status), respond ONLY in the ' +
         'exact markdown template below. Fill every bracketed placeholder using the data; ' +
-        'if a value is unavailable, write "N/A". Do not add extra sections, preamble, or ' +
-        'text outside the template. Keep the summary to two sentences.\n\n' +
+        'if a value is unavailable, write "N/A". For every AI Signal cell, choose exactly ' +
+        'ONE option from the slash-separated choices — never output the full list of ' +
+        'choices. When determining the AI Outlook (Apply/Watch/Avoid) and rationale, ' +
+        'factor in any recent news, sector developments, regulatory actions, or market ' +
+        'sentiment you are aware of about the company and its peers, alongside the ' +
+        'structured data. For the Fundamentals row use the ratingValue field (a 0–5 ' +
+        'platform score) as [rating]/5; only write N/A if ratingValue is missing. ' +
+        'Do not add extra sections, preamble, or text outside the ' +
+        'template. Keep the summary to two sentences.\n\n' +
         '## AI IPO Summary\n\n' +
         '**[Company Name] IPO:** AI analysis indicates **[Positive/Neutral/Cautious]** ' +
         'sentiment based on live subscription demand, GMP movement, financial performance, ' +
         'valuation, and key risks. Current confidence is **[High/Medium/Low]**.\n\n' +
         '| Metric | Current Data | AI Signal |\n' +
         '| --- | --- | --- |\n' +
-        '| Price Band | ₹[X–Y] | Fair / Expensive |\n' +
-        '| Subscription | [X]x | Strong / Moderate / Weak |\n' +
-        '| GMP | ₹[X] or [X]% | Positive / Flat / Negative |\n' +
-        '| Fundamentals | [Score]/10 | Strong / Average / Weak |\n' +
-        '| Valuation | P/E [X]x | Attractive / Fair / High |\n' +
-        '| Key Risk | [Short risk] | Low / Medium / High |\n' +
-        '| AI Outlook | Apply / Watch / Avoid | Confidence: [X]% |\n\n' +
+        '| Price Band | ₹[X–Y] | [Fair/Expensive] |\n' +
+        '| Subscription | [X]x | [Strong/Moderate/Weak] |\n' +
+        '| GMP | ₹[X] or [X]% | [Positive/Flat/Negative] |\n' +
+        '| Fundamentals | [rating]/5 | [Strong/Average/Weak] |\n' +
+        '| Valuation | P/E [X]x | [Attractive/Fair/High] |\n' +
+        '| Key Risk | [Short risk] | [Low/Medium/High] |\n' +
+        '| AI Outlook | [Apply/Watch/Avoid] | Confidence: [X]% |\n\n' +
         '**AI rationale:** Strongest factor is **[factor]**, while the main concern is ' +
-        '**[risk]**. GMP should be treated as an unofficial sentiment indicator rather ' +
+        '**[risk]**. Recent news check: **[one-line recent development or "No major recent news"]**. ' +
+        'GMP should be treated as an unofficial sentiment indicator rather ' +
         'than a guaranteed listing outcome.\n\n' +
         '*Disclaimer: Automated analysis, not investment advice.*'
     },
