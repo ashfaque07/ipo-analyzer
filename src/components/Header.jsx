@@ -1,9 +1,11 @@
 // App header: title, source link, live badge and refresh button.
 
+import { ICONS } from '../constants/ui.js'
+
 const HEADINGS = {
   ipos: {
     title: 'IPO Analyzer',
-    logo: '📈',
+    logo: ICONS.ipos,
     subtitle: (
       <>
         Live IPO data (GMP, rating, dates &amp; more) from{' '}
@@ -15,12 +17,12 @@ const HEADINGS = {
   },
   stocks: {
     title: 'Stock Analysis',
-    logo: '🏦',
+    logo: ICONS.stocks,
     subtitle: 'AI-powered fundamental analysis for any listed stock.'
   },
   trending: {
     title: 'Trending Stocks',
-    logo: '🔥',
+    logo: ICONS.trending,
     subtitle: 'Live NSE top gainers & losers, refreshed through the trading day.'
   }
 }
@@ -40,7 +42,7 @@ export default function Header({ view = 'ipos', source, count, onRefresh, theme,
       </p>
       <div className="header-actions">
         {view === 'ipos' && (
-          <button className="refresh" onClick={onRefresh}>↻ Refresh</button>
+          <button className="refresh" onClick={onRefresh}>{ICONS.refresh} Refresh</button>
         )}
         <button
           className="theme-toggle"
@@ -48,7 +50,7 @@ export default function Header({ view = 'ipos', source, count, onRefresh, theme,
           title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           aria-label="Toggle color theme"
         >
-          {theme === 'dark' ? '☀️' : '🌙'}
+          {theme === 'dark' ? ICONS.light : ICONS.dark}
         </button>
       </div>
     </header>

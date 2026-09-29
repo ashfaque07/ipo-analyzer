@@ -7,6 +7,7 @@ import { connectLambda } from '@netlify/blobs'
 import { getIpos } from '../../server/services/ipoService.js'
 import { isAiConfigured, streamAnalysis } from '../../server/services/analysisService.js'
 import { streamStockAnalysis } from '../../server/services/stockAnalysisService.js'
+import { streamTrendingAnalysis } from '../../server/services/trendingAnalysisService.js'
 import {
   readTrending,
   refreshTrending,
@@ -39,6 +40,57 @@ export const handler = async (event) => {
         statusCode: 200,
         headers: { ...CORS, 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
+      }
+    }
+
+    if (path.includes('/analyze-trending')) {
+      if (method !== 'POST') {
+        return { statusCode: 405, headers: CORS, body: 'Method not allowed' }
+      }
+      if (!isAiConfigured()) {
+        return {
+          statusCode: 503,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'AI provider not configured. Set AI_API_KEY.' })
+        }
+      }
+
+      let payload
+      try {
+        payload = JSON.parse(event.body || '{}')
+      } catch {
+        return {
+          statusCode: 400,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid JSON body.' })
+        }
+      }
+      const trendType = payload?.type === 'losers' ? 'losers' : 'gainers'
+      const trendStocks = Array.isArray(payload?.stocks) ? payload.stocks : []
+      if (!trendStocks.length) {
+        return {
+          statusCode: 400,
+          headers: { ...CORS, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing trending stocks list.' })
+        }
+      }
+
+      let trendingText = ''
+      try {
+        for await (const token of streamTrendingAnalysis(trendType, trendStocks)) {
+          trendingText += token
+        }
+      } catch (err) {
+        return {
+          statusCode: 502,
+          headers: { ...CORS, 'Content-Type': 'text/plain; charset=utf-8' },
+          body: `${trendingText}\n\n[Analysis failed: ${err.message}]`
+        }
+      }
+      return {
+        statusCode: 200,
+        headers: { ...CORS, 'Content-Type': 'text/plain; charset=utf-8' },
+        body: trendingText
       }
     }
 

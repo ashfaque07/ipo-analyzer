@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { fetchIpos } from '../services/ipoApi.js'
-import { FILTERS } from '../constants/filters.js'
+import { FILTERS } from '../constants/ui.js'
 
 function matchesFilter(ipo, filter) {
   return (

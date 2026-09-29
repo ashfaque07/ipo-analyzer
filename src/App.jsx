@@ -8,6 +8,7 @@ import TrendingStocks from './components/TrendingStocks.jsx'
 import { useIpos } from './hooks/useIpos.js'
 import { useAnalysis } from './hooks/useAnalysis.js'
 import { useTheme } from './hooks/useTheme.js'
+import { ICONS } from './constants/ui.js'
 import { useState, useEffect } from 'react'
 
 export default function App() {
@@ -39,19 +40,19 @@ export default function App() {
           className={`view-tab ${view === 'ipos' ? 'active' : ''}`}
           onClick={() => setView('ipos')}
         >
-          📈 IPOs
+          {ICONS.ipos} IPOs
         </button>
         <button
           className={`view-tab ${view === 'trending' ? 'active' : ''}`}
           onClick={() => setView('trending')}
         >
-          🔥 Trending
+          {ICONS.trending} Trending
         </button>
         <button
           className={`view-tab ${view === 'stocks' ? 'active' : ''}`}
           onClick={() => setView('stocks')}
         >
-          🏦 Stock Analysis
+          {ICONS.stocks} Stock Analysis
         </button>
       </nav>
 

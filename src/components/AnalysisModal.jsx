@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { ICONS } from '../constants/ui.js'
 
 export default function AnalysisModal({ analysis, streaming, onClose }) {
   // Lock background scroll while the modal is open.
@@ -25,7 +26,7 @@ export default function AnalysisModal({ analysis, streaming, onClose }) {
       <div className="modal-body" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <h2>AI Analysis · {ipo.company}</h2>
-          <button className="close" onClick={onClose}>✕</button>
+          <button className="close" onClick={onClose}>{ICONS.close}</button>
         </div>
         {result.verdict && (
           <div className="verdict">
@@ -36,10 +37,10 @@ export default function AnalysisModal({ analysis, streaming, onClose }) {
             <span className="provider">via {result.provider}</span>
           </div>
         )}
-        {streaming && empty && <p className="info">🤖 Analyzing in real time…</p>}
+        {streaming && empty && <p className="info">{ICONS.ai} Analyzing in real time…</p>}
         <div className="summary markdown">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{result.summary}</ReactMarkdown>
-          {streaming && <span className="cursor">▍</span>}
+          {streaming && <span className="cursor">{ICONS.cursor}</span>}
         </div>
       </div>
     </div>

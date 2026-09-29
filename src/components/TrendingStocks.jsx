@@ -1,6 +1,12 @@
 // Live trending stocks page: NSE top gainers / losers (All Securities).
 
+import { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useTrending } from '../hooks/useTrending.js'
+import { useTrendingAnalysis } from '../hooks/useTrendingAnalysis.js'
+import TrendingHistoryModal from './TrendingHistoryModal.jsx'
+import { ICONS } from '../constants/ui.js'
 
 const fmtNum = (n, d = 2) =>
   n === null || n === undefined || Number.isNaN(n)
@@ -9,6 +15,27 @@ const fmtNum = (n, d = 2) =>
 
 const fmtInt = (n) =>
   n === null || n === undefined || Number.isNaN(n) ? '—' : Number(n).toLocaleString('en-IN')
+
+// Compact large counts (shares) using Indian abbreviations (K / L / Cr).
+const fmtCount = (n) => {
+  if (n === null || n === undefined || Number.isNaN(n)) return '—'
+  const v = Number(n)
+  const abs = Math.abs(v)
+  if (abs >= 1e7) return `${(v / 1e7).toFixed(2)}Cr`
+  if (abs >= 1e5) return `${(v / 1e5).toFixed(2)}L`
+  if (abs >= 1e3) return `${(v / 1e3).toFixed(2)}K`
+  return Number(v).toLocaleString('en-IN')
+}
+
+// Compact large numbers using Indian abbreviations (K / L / Cr).
+const fmtCompact = (n) => {
+  if (n === null || n === undefined || Number.isNaN(n)) return '—'
+  const v = Number(n)
+  const abs = Math.abs(v)
+  if (abs >= 100) return `${(v / 100).toFixed(2)}Cr`
+  if (abs >= 1) return `${v.toFixed(2)}L`
+  return `${(v * 100).toFixed(2)}K`
+}
 
 // Show an ISO timestamp as IST time (HH:MM), e.g. for created / modified.
 const fmtTime = (iso) => {
@@ -21,6 +48,12 @@ const fmtTime = (iso) => {
     hour12: false,
     timeZone: 'Asia/Kolkata'
   })
+}
+
+// NSE returns a literal "-" when a field has no value; treat it as empty.
+const clean = (v) => {
+  const s = (v ?? '').toString().trim()
+  return s === '-' ? '' : s
 }
 
 export default function TrendingStocks() {
@@ -36,6 +69,72 @@ export default function TrendingStocks() {
     error,
     reload
   } = useTrending()
+
+  const [selected, setSelected] = useState(null)
+  const [sort, setSort] = useState({ key: null, dir: 'asc' })
+
+  const {
+    result: bestPick,
+    streaming: analyzing,
+    error: analyzeError,
+    analyze: analyzeBest,
+    reset: resetBest
+  } = useTrendingAnalysis()
+
+  // Close the best-pick modal when Escape is pressed.
+  useEffect(() => {
+    if (!bestPick && !analyzeError) return
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') resetBest()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [bestPick, analyzeError, resetBest])
+
+  // Toggle sort: first click ascending, second descending, third clears.
+  const onSort = (key) => {
+    setSort((prev) => {
+      if (prev.key !== key) return { key, dir: 'asc' }
+      if (prev.dir === 'asc') return { key, dir: 'desc' }
+      return { key: null, dir: 'asc' }
+    })
+  }
+
+  // Value accessors per sortable column.
+  const sortValue = (s, key) => {
+    switch (key) {
+      case 'symbol': return (s.symbol ?? '').toString().toLowerCase()
+      case 'ltp': return s.percentChange
+      case 'open': return s.open
+      case 'prev': return s.prevClose
+      case 'volume': return s.volume
+      case 'turnover': return s.turnover
+      case 'reason': return clean(s.reason).toLowerCase()
+      case 'created': return s.createdAt ? new Date(s.createdAt).getTime() : null
+      case 'modified': return s.modifiedAt ? new Date(s.modifiedAt).getTime() : null
+      default: return null
+    }
+  }
+
+  const sortedStocks = (() => {
+    if (!sort.key) return stocks
+    const mul = sort.dir === 'asc' ? 1 : -1
+    return [...stocks].sort((a, b) => {
+      const av = sortValue(a, sort.key)
+      const bv = sortValue(b, sort.key)
+      const aEmpty = av === null || av === undefined || av === '' || Number.isNaN(av)
+      const bEmpty = bv === null || bv === undefined || bv === '' || Number.isNaN(bv)
+      if (aEmpty && bEmpty) return 0
+      if (aEmpty) return 1
+      if (bEmpty) return -1
+      if (typeof av === 'string' || typeof bv === 'string') {
+        return String(av).localeCompare(String(bv)) * mul
+      }
+      return (av - bv) * mul
+    })
+  })()
+
+  const sortIcon = (key) => (sort.key === key ? (sort.dir === 'asc' ? ' ▲' : ' ▼') : '')
 
   return (
     <section className="trending">
@@ -58,6 +157,13 @@ export default function TrendingStocks() {
           {dayStartedAt && <span className="trending-time">Day start {fmtTime(dayStartedAt)}</span>}
           {updatedAt && <span className="trending-time">Updated {fmtTime(updatedAt)}</span>}
           {timestamp && <span className="trending-time">NSE {timestamp}</span>}
+          <button
+            className="trend-ai-btn"
+            onClick={() => analyzeBest(type, stocks)}
+            disabled={analyzing || loading || !stocks.length}
+          >
+            {analyzing ? 'Analyzing…' : `${ICONS.ai} AI Best Pick`}
+          </button>
           <button className="trend-refresh" onClick={reload} disabled={loading || refreshing}>
             {refreshing ? 'Refreshing…' : '↻ Refresh'}
           </button>
@@ -78,48 +184,63 @@ export default function TrendingStocks() {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th className="ta-left">Symbol</th>
-                  <th>LTP</th>
-                  <th>Change</th>
-                  <th>% Change</th>
-                  <th>Open</th>
-                  <th>High</th>
-                  <th>Low</th>
-                  <th>Prev Close</th>
-                  <th>Volume</th>
-                  <th>Turnover (₹L)</th>
-                  <th className="ta-left">Reason (Trending)</th>
-                  <th>Created</th>
-                  <th>Modified</th>
+                  <th className="ta-left sortable" onClick={() => onSort('symbol')}>Symbol{sortIcon('symbol')}</th>
+                  <th className="sortable" title="Last Traded Price (% change from prev close)" onClick={() => onSort('ltp')}>LTP (%){sortIcon('ltp')}</th>
+                  <th className="sortable" onClick={() => onSort('open')}>Open{sortIcon('open')}</th>
+                  <th className="sortable" title="Previous Close" onClick={() => onSort('prev')}>Prev{sortIcon('prev')}</th>
+                  <th title="Intraday High and Low">Day Range</th>
+                  <th className="sortable" title="Shares traded" onClick={() => onSort('volume')}>Vol{sortIcon('volume')}</th>
+                  <th className="sortable" title="Traded value (₹)" onClick={() => onSort('turnover')}>Turnover{sortIcon('turnover')}</th>
+                  <th className="ta-left sortable" onClick={() => onSort('reason')}>Reason (Trending){sortIcon('reason')}</th>
+                  <th className="sortable" onClick={() => onSort('created')}>Created{sortIcon('created')}</th>
+                  <th className="sortable" onClick={() => onSort('modified')}>Modified{sortIcon('modified')}</th>
                 </tr>
               </thead>
               <tbody>
-                {stocks.map((s, i) => {
+                {sortedStocks.map((s, i) => {
                   const up = (s.percentChange ?? 0) >= 0
+                  const reason = clean(s.reason)
+                  const exDate = clean(s.reasonExDate)
                   return (
-                    <tr key={s.symbol} className={s.stale ? 'stale' : ''}>
+                    <tr
+                      key={s.symbol}
+                      className={`clickable ${s.stale ? 'stale' : ''}`}
+                      onClick={() => setSelected(s)}
+                      title="View % change history"
+                    >
                       <td className="muted">{i + 1}</td>
                       <td className="ta-left sym">
                         {s.symbol}
+                        {s.aiRecommended && (
+                          <span
+                            className="ai-badge"
+                            title={`AI recommended pick${s.aiRecommendedAt ? ` at ${fmtTime(s.aiRecommendedAt)}` : ''}`}
+                          >
+                            {ICONS.ai}
+                          </span>
+                        )}
                         {s.stale && (
                           <span className="stale-badge" title="Not in the latest refresh">
-                            not updated
+                            ∅
                           </span>
                         )}
                       </td>
-                      <td>{fmtNum(s.ltp)}</td>
-                      <td className={up ? 'pos' : 'neg'}>{fmtNum(s.change)}</td>
-                      <td className={up ? 'pos' : 'neg'}>
-                        {up ? '▲' : '▼'} {fmtNum(s.percentChange)}%
+                      <td>
+                        {fmtNum(s.ltp)}{' '}
+                        <span className={up ? 'pos' : 'neg'}>
+                          ({up ? '▲' : '▼'} {fmtNum(s.percentChange)}%)
+                        </span>
                       </td>
                       <td>{fmtNum(s.open)}</td>
-                      <td>{fmtNum(s.high)}</td>
-                      <td>{fmtNum(s.low)}</td>
                       <td>{fmtNum(s.prevClose)}</td>
-                      <td>{fmtInt(s.volume)}</td>
-                      <td>{fmtNum(s.turnover)}</td>
-                      <td className="ta-left reason" title={s.reasonExDate ? `Ex-date: ${s.reasonExDate}` : undefined}>
-                        {s.reason || '—'}
+                      <td className="day-range">
+                        <span className="pos" title="Day High">H {fmtNum(s.high)}</span>
+                        <span className="neg" title="Day Low">L {fmtNum(s.low)}</span>
+                      </td>
+                      <td>{fmtCount(s.volume)}</td>
+                      <td>{fmtCompact(s.turnover)}</td>
+                      <td className="ta-left reason" title={reason ? (exDate ? `${reason} · Ex-date: ${exDate}` : reason) : 'No reason found'}>
+                        {reason || '—'}
                       </td>
                       <td className="muted">{fmtTime(s.createdAt)}</td>
                       <td className="muted">{fmtTime(s.modifiedAt)}</td>
@@ -130,6 +251,29 @@ export default function TrendingStocks() {
             </table>
           </div>
         )
+      )}
+
+      <TrendingHistoryModal stock={selected} onClose={() => setSelected(null)} />
+
+      {(bestPick || analyzeError) && (
+        <div className="modal" onClick={resetBest}>
+          <div className="modal-body" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-head">
+              <h2>{ICONS.ai} AI Best Trending Pick · {type === 'losers' ? 'Losers' : 'Gainers'}</h2>
+              <button className="close" onClick={resetBest}>✕</button>
+            </div>
+            {analyzeError && <p className="error">{analyzeError}</p>}
+            {analyzing && !bestPick?.summary && (
+              <p className="info">{ICONS.ai} Ranking trending stocks in real time…</p>
+            )}
+            {bestPick && (
+              <div className="summary markdown">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{bestPick.summary}</ReactMarkdown>
+                {analyzing && <span className="cursor">▍</span>}
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </section>
   )

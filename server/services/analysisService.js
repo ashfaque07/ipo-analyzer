@@ -67,8 +67,7 @@ function buildMessages(ipo) {
         '## AI IPO Summary\n\n' +
         '**[Company Name] IPO:** AI analysis indicates **[Positive/Neutral/Cautious]** ' +
         'sentiment based on live subscription demand, GMP movement, financial performance, ' +
-        'valuation, and key risks. Current confidence is **[High/Medium/Low]**. For ' +
-        'informational purposes, not investment advice.\n\n' +
+        'valuation, and key risks. Current confidence is **[High/Medium/Low]**.\n\n' +
         '| Metric | Current Data | AI Signal |\n' +
         '| --- | --- | --- |\n' +
         '| Price Band | ₹[X–Y] | Fair / Expensive |\n' +

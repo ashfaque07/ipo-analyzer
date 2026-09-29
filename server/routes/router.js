@@ -3,6 +3,7 @@
 import { handleGetIpos } from '../controllers/ipoController.js'
 import { handleAnalyze } from '../controllers/analysisController.js'
 import { handleAnalyzeStock } from '../controllers/stockAnalysisController.js'
+import { handleAnalyzeTrending } from '../controllers/trendingAnalysisController.js'
 import { handleGetTrending, handleRefreshTrending } from '../controllers/trendingController.js'
 
 export async function router(req, res) {
@@ -23,6 +24,11 @@ export async function router(req, res) {
 
   if (req.url.startsWith('/api/trending-refresh')) {
     await handleRefreshTrending(req, res)
+    return
+  }
+
+  if (req.url.startsWith('/api/analyze-trending')) {
+    await handleAnalyzeTrending(req, res)
     return
   }
 

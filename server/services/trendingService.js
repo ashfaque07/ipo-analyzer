@@ -16,6 +16,7 @@ import {
 } from '../config/index.js'
 import { readSnapshot, writeSnapshot } from '../repositories/trendingRepository.js'
 import { ensureHolidays, isHoliday } from './holidayService.js'
+import { recommendBestSymbols } from './trendingAnalysisService.js'
 
 const NSE_BASE = 'https://www.nseindia.com'
 const NSE_REFERER = `${NSE_BASE}/market-data/top-gainers-losers`
@@ -63,6 +64,11 @@ async function fetchNseJson(url) {
 
 // Map a raw NSE security row into a clean, UI-friendly object.
 function normalizeStock(row) {
+  // NSE uses a literal "-" to mean "no value"; treat it as empty.
+  const clean = (v) => {
+    const s = (v ?? '').toString().trim()
+    return s === '-' ? '' : s
+  }
   return {
     symbol: row.symbol,
     series: row.series || '',
@@ -77,8 +83,8 @@ function normalizeStock(row) {
     turnover: row.turnover ?? null,
     // Reason the stock is trending (corporate action / event), e.g.
     // "Dividend - Rs 5.25 Per Share", "Annual General Meeting".
-    reason: row.ca_purpose || '',
-    reasonExDate: row.ca_ex_dt || ''
+    reason: clean(row.ca_purpose),
+    reasonExDate: clean(row.ca_ex_dt)
   }
 }
 
@@ -172,16 +178,39 @@ export async function refreshTrending(rawType = 'gainers') {
   const prevBySymbol = new Map((prev?.stocks || []).map((s) => [s.symbol, s]))
   const liveSymbols = new Set(live.stocks.map((s) => s.symbol))
 
-  // Current live stocks (fresh data).
+  // Current live stocks (fresh data). Each stock keeps a `history` array with a
+  // snapshot of its % change (and LTP) at every refresh, so the UI can show how
+  // the stock moved over the trading day.
   const fresh = live.stocks.map((s) => {
     const existing = isNewDay ? null : prevBySymbol.get(s.symbol)
+    const prevHistory = existing?.history || []
     return {
       ...s,
       createdAt: existing?.createdAt || now,
       modifiedAt: now,
-      stale: false
+      stale: false,
+      // Preserve a previous AI recommendation (and the time it was made) so a
+      // stock stays flagged for the rest of the trading day once picked.
+      aiRecommended: existing?.aiRecommended || false,
+      aiRecommendedAt: existing?.aiRecommendedAt || null,
+      history: [
+        ...prevHistory,
+        { time: now, percentChange: s.percentChange ?? null, ltp: s.ltp ?? null }
+      ]
     }
   })
+
+  // Ask the AI to flag the best 3 genuine opportunities from the fresh list.
+  // Existing recommendations are preserved; newly picked stocks are flagged and
+  // stamped with the time they were recommended. Best-effort: if the AI is
+  // unconfigured or fails, nothing new is flagged and the refresh still succeeds.
+  const recommended = new Set(await recommendBestSymbols(type, fresh, 3))
+  for (const s of fresh) {
+    if (recommended.has(String(s.symbol).toUpperCase())) {
+      s.aiRecommended = true
+      if (!s.aiRecommendedAt) s.aiRecommendedAt = now
+    }
+  }
 
   // Stocks seen earlier today but absent from this refresh: keep last-known
   // values, mark stale, and don't touch `modifiedAt` (data wasn't updated).

@@ -1,370 +1,1975 @@
 {
   "gainers": {
     "type": "gainers",
-    "dayStartedAt": "2026-09-23T07:10:26.980Z",
-    "updatedAt": "2026-09-23T07:10:26.980Z",
-    "timestamp": "23-Sep-2026 12:38:26",
-    "count": 20,
+    "dayStartedAt": "2026-09-28T09:23:58.527Z",
+    "updatedAt": "2026-09-28T12:00:06.705Z",
+    "timestamp": "28-Sep-2026 16:00:00",
+    "count": 25,
     "stocks": [
       {
-        "symbol": "PREMIERPOL",
+        "symbol": "RSYSTEMS",
         "series": "EQ",
-        "ltp": 97.22,
-        "open": 81.7,
-        "high": 97.22,
-        "low": 81.14,
-        "prevClose": 81.02,
+        "ltp": 282.74,
+        "open": 250,
+        "high": 282.74,
+        "low": 245.45,
+        "prevClose": 235.62,
         "change": 20,
         "percentChange": 20,
-        "volume": 5290344,
-        "turnover": 4954.936190400001,
-        "reason": "Dividend - Re 0.15 Per Share",
-        "reasonExDate": "17-Sep-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "volume": 61311130,
+        "turnover": 163394.16145,
+        "reason": "Interim Dividend - Rs 6 Per Share",
+        "reasonExDate": "12-Mar-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": true,
+        "aiRecommendedAt": "2026-09-28T12:00:06.705Z",
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 20,
+            "ltp": 282.74
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 20,
+            "ltp": 282.74
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 20,
+            "ltp": 282.74
+          }
+        ]
       },
       {
-        "symbol": "HEROMOTORS",
+        "symbol": "STARTECK",
         "series": "EQ",
-        "ltp": 98.4,
-        "open": 82,
-        "high": 98.4,
-        "low": 80.5,
-        "prevClose": 84,
-        "change": 20,
-        "percentChange": 17.14,
-        "volume": 139136584,
-        "turnover": 126934.3055832,
-        "reason": "-",
-        "reasonExDate": "-",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
-      },
-      {
-        "symbol": "CUBEXTUB",
-        "series": "EQ",
-        "ltp": 125.82,
-        "open": 125.82,
-        "high": 125.82,
-        "low": 117,
-        "prevClose": 104.85,
-        "change": 20,
-        "percentChange": 20,
-        "volume": 1022817,
-        "turnover": 1279.9531938,
-        "reason": "Annual General Meeting",
-        "reasonExDate": "16-Jul-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
-      },
-      {
-        "symbol": "FRONTSP",
-        "series": "EQ",
-        "ltp": 1394.6,
-        "open": 1175.4,
-        "high": 1394.6,
-        "low": 1175.4,
-        "prevClose": 1162.2,
+        "ltp": 315,
+        "open": 269,
+        "high": 315,
+        "low": 261.95,
+        "prevClose": 262.5,
         "change": 20,
         "percentChange": 20,
-        "volume": 348358,
-        "turnover": 4661.6919202,
-        "reason": "Dividend - Rs 0.70 Per Share",
-        "reasonExDate": "15-Sep-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "volume": 14621,
+        "turnover": 44.013596299999996,
+        "reason": "Dividend - Re 0.25 Per Share",
+        "reasonExDate": "11-Sep-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 20,
+            "ltp": 315
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 20,
+            "ltp": 315
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 20,
+            "ltp": 315
+          }
+        ]
       },
       {
-        "symbol": "MANUGRAPH",
+        "symbol": "RETAIL",
         "series": "EQ",
-        "ltp": 23.44,
-        "open": 20.99,
-        "high": 24.26,
-        "low": 20.99,
-        "prevClose": 20.22,
-        "change": 15.92,
-        "percentChange": 15.92,
-        "volume": 1512586,
-        "turnover": 359.6929508,
+        "ltp": 24.07,
+        "open": 23,
+        "high": 24.07,
+        "low": 22.13,
+        "prevClose": 20.06,
+        "change": 19.99,
+        "percentChange": 19.99,
+        "volume": 125527,
+        "turnover": 29.687135499999997,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 19.99,
+            "ltp": 24.07
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 19.99,
+            "ltp": 24.07
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 19.99,
+            "ltp": 24.07
+          }
+        ]
+      },
+      {
+        "symbol": "RTSPOWR",
+        "series": "EQ",
+        "ltp": 125.5,
+        "open": 116.3,
+        "high": 125.5,
+        "low": 116.3,
+        "prevClose": 104.59,
+        "change": 19.99,
+        "percentChange": 19.99,
+        "volume": 114320,
+        "turnover": 141.882552,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 19.99,
+            "ltp": 125.5
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 19.99,
+            "ltp": 125.5
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 19.99,
+            "ltp": 125.5
+          }
+        ]
+      },
+      {
+        "symbol": "TNTELE",
+        "series": "EQ",
+        "ltp": 11.89,
+        "open": 9.99,
+        "high": 11.89,
+        "low": 9.6,
+        "prevClose": 9.91,
+        "change": 19.98,
+        "percentChange": 19.98,
+        "volume": 172414,
+        "turnover": 19.8448514,
         "reason": "Annual General Meeting",
         "reasonExDate": "20-Sep-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 19.98,
+            "ltp": 11.89
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 19.98,
+            "ltp": 11.89
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 19.98,
+            "ltp": 11.89
+          }
+        ]
       },
       {
-        "symbol": "SSRETAIL",
+        "symbol": "LANDSMILL",
         "series": "EQ",
-        "ltp": 715.3,
-        "open": 624,
-        "high": 723.95,
-        "low": 603.05,
-        "prevClose": 424,
-        "change": 14.63,
-        "percentChange": 68.7,
-        "volume": 34545453,
-        "turnover": 226459.2625962,
-        "reason": "-",
-        "reasonExDate": "-",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
-      },
-      {
-        "symbol": "OPTIEMUS",
-        "series": "EQ",
-        "ltp": 809.3,
-        "open": 800,
-        "high": 850.65,
-        "low": 781.2,
-        "prevClose": 708.9,
-        "change": 14.16,
-        "percentChange": 14.16,
-        "volume": 7426737,
-        "turnover": 60706.8909117,
+        "ltp": 0.74,
+        "open": 0.72,
+        "high": 0.74,
+        "low": 0.66,
+        "prevClose": 0.62,
+        "change": 19.35,
+        "percentChange": 19.35,
+        "volume": 15983718,
+        "turnover": 115.0827696,
         "reason": "Annual General Meeting",
-        "reasonExDate": "23-Sep-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "reasonExDate": "02-Aug-2024",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 19.35,
+            "ltp": 0.74
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 19.35,
+            "ltp": 0.74
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 19.35,
+            "ltp": 0.74
+          }
+        ]
       },
       {
-        "symbol": "JAYKAY",
+        "symbol": "IWP",
         "series": "EQ",
-        "ltp": 215.64,
-        "open": 192.4,
-        "high": 219.35,
-        "low": 191.47,
-        "prevClose": 189.5,
-        "change": 13.79,
-        "percentChange": 13.79,
-        "volume": 7192665,
-        "turnover": 15217.5213405,
-        "reason": "Rights 3:19 @ Premium Rs 74/-",
+        "ltp": 41.05,
+        "open": 34.31,
+        "high": 41.96,
+        "low": 34.31,
+        "prevClose": 34.97,
+        "change": 17.39,
+        "percentChange": 17.39,
+        "volume": 893596,
+        "turnover": 358.2426364,
+        "reason": "Dividend - Re 0.20 Per Share",
+        "reasonExDate": "15-Sep-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 17.39,
+            "ltp": 41.05
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 17.39,
+            "ltp": 41.05
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 17.39,
+            "ltp": 41.05
+          }
+        ]
+      },
+      {
+        "symbol": "REPRO",
+        "series": "EQ",
+        "ltp": 332.95,
+        "open": 301,
+        "high": 345.9,
+        "low": 301,
+        "prevClose": 288.25,
+        "change": 15.51,
+        "percentChange": 15.51,
+        "volume": 416771,
+        "turnover": 1410.3947411000001,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "02-Aug-2024",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 15.51,
+            "ltp": 332.95
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 15.51,
+            "ltp": 332.95
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 15.51,
+            "ltp": 332.95
+          }
+        ]
+      },
+      {
+        "symbol": "DAMCAPITAL",
+        "series": "EQ",
+        "ltp": 159.5,
+        "open": 139.9,
+        "high": 163.75,
+        "low": 137.71,
+        "prevClose": 138.18,
+        "change": 15.43,
+        "percentChange": 15.43,
+        "volume": 18844708,
+        "turnover": 29024.619261599997,
+        "reason": "Dividend - Re 1 Per Share",
         "reasonExDate": "28-Aug-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": true,
+        "aiRecommendedAt": "2026-09-28T12:00:06.705Z",
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 15.43,
+            "ltp": 159.5
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 15.43,
+            "ltp": 159.5
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 15.43,
+            "ltp": 159.5
+          }
+        ]
       },
       {
-        "symbol": "KOTHARIPRO",
+        "symbol": "BPLPHARMA",
         "series": "EQ",
-        "ltp": 71.75,
-        "open": 65.6,
-        "high": 76.4,
-        "low": 65.6,
-        "prevClose": 63.67,
-        "change": 12.69,
-        "percentChange": 12.69,
-        "volume": 79786,
-        "turnover": 57.788999800000006,
-        "reason": "Bonus 1:1",
-        "reasonExDate": "18-Feb-2025",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 2150,
+        "open": 2093,
+        "high": 2277.6,
+        "low": 2001,
+        "prevClose": 1898,
+        "change": 13.28,
+        "percentChange": 13.28,
+        "volume": 155526,
+        "turnover": 3367.0445844,
+        "reason": "Dividend - Re 1 Per Share",
+        "reasonExDate": "11-Sep-2026",
+        "createdAt": "2026-09-28T11:36:21.757Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 13.28,
+            "ltp": 2150
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 13.28,
+            "ltp": 2150
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 13.28,
+            "ltp": 2150
+          }
+        ]
       },
       {
-        "symbol": "LOYALTEX",
+        "symbol": "SMCGLOBAL",
         "series": "EQ",
-        "ltp": 242,
-        "open": 222.55,
-        "high": 257.94,
-        "low": 219.25,
-        "prevClose": 214.95,
-        "change": 12.58,
-        "percentChange": 12.58,
-        "volume": 42623,
-        "turnover": 104.7332356,
-        "reason": "Annual General Meeting",
-        "reasonExDate": "13-Sep-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 96.7,
+        "open": 86.04,
+        "high": 100.98,
+        "low": 84.86,
+        "prevClose": 85.6,
+        "change": 12.97,
+        "percentChange": 12.97,
+        "volume": 26689199,
+        "turnover": 25904.5365494,
+        "reason": "Dividend - Re 0.60 Per Share",
+        "reasonExDate": "15-Jun-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": true,
+        "aiRecommendedAt": "2026-09-28T12:00:06.705Z",
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 12.97,
+            "ltp": 96.7
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 12.97,
+            "ltp": 96.7
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 12.97,
+            "ltp": 96.7
+          }
+        ]
       },
       {
-        "symbol": "ANSALBU",
+        "symbol": "PRIMO",
         "series": "EQ",
-        "ltp": 101.44,
-        "open": 97.75,
-        "high": 107.5,
-        "low": 95.6,
-        "prevClose": 90.12,
-        "change": 12.56,
-        "percentChange": 12.56,
-        "volume": 155221,
-        "turnover": 160.3277709,
-        "reason": "-",
-        "reasonExDate": "-",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 28.3,
+        "open": 26,
+        "high": 29.8,
+        "low": 25.8,
+        "prevClose": 25.28,
+        "change": 11.95,
+        "percentChange": 11.95,
+        "volume": 4154950,
+        "turnover": 1166.294465,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 11.95,
+            "ltp": 28.3
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 11.95,
+            "ltp": 28.3
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 11.95,
+            "ltp": 28.3
+          }
+        ]
       },
       {
-        "symbol": "ASHOKAMET",
+        "symbol": "SSDL",
         "series": "EQ",
-        "ltp": 16.03,
-        "open": 14.3,
-        "high": 16.5,
-        "low": 14.3,
-        "prevClose": 14.3,
-        "change": 12.1,
-        "percentChange": 12.1,
-        "volume": 235934,
-        "turnover": 37.5370994,
-        "reason": "Annual General Meeting",
-        "reasonExDate": "06-Sep-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
-      },
-      {
-        "symbol": "MANINDS",
-        "series": "EQ",
-        "ltp": 951.8,
-        "open": 875,
-        "high": 974,
-        "low": 866.25,
-        "prevClose": 849.9,
-        "change": 11.99,
-        "percentChange": 11.99,
-        "volume": 6099573,
-        "turnover": 57284.74978680001,
-        "reason": "Annual General Meeting",
-        "reasonExDate": "19-Sep-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
-      },
-      {
-        "symbol": "RADAAN",
-        "series": "EQ",
-        "ltp": 3.21,
-        "open": 2.87,
-        "high": 3.44,
-        "low": 2.52,
-        "prevClose": 2.87,
+        "ltp": 82,
+        "open": 77.5,
+        "high": 86,
+        "low": 76,
+        "prevClose": 73.31,
         "change": 11.85,
         "percentChange": 11.85,
-        "volume": 268207,
-        "turnover": 8.368058399999999,
-        "reason": "Annual General Meeting",
-        "reasonExDate": "23-Sep-2022",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "volume": 1315517,
+        "turnover": 1086.2223869,
+        "reason": "Interim Dividend - Rs 1.515 Per Share",
+        "reasonExDate": "09-Apr-2025",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 11.85,
+            "ltp": 82
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 11.85,
+            "ltp": 82
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 11.85,
+            "ltp": 82
+          }
+        ]
       },
       {
-        "symbol": "OLAELEC",
+        "symbol": "SYNCOMF",
         "series": "EQ",
-        "ltp": 41.76,
-        "open": 38.25,
-        "high": 42.36,
-        "low": 38.25,
-        "prevClose": 37.78,
-        "change": 10.53,
-        "percentChange": 10.53,
-        "volume": 265594027,
-        "turnover": 109955.927178,
-        "reason": "-",
-        "reasonExDate": "-",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 22.34,
+        "open": 20.17,
+        "high": 23.42,
+        "low": 20.17,
+        "prevClose": 20.05,
+        "change": 11.42,
+        "percentChange": 11.42,
+        "volume": 82454897,
+        "turnover": 18428.6694795,
+        "reason": "Dividend - Re 0.10 Per Share",
+        "reasonExDate": "23-Sep-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 11.42,
+            "ltp": 22.34
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 11.42,
+            "ltp": 22.34
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 11.42,
+            "ltp": 22.34
+          }
+        ]
       },
       {
-        "symbol": "OMAXAUTO",
+        "symbol": "WEALTH",
         "series": "EQ",
-        "ltp": 209.94,
-        "open": 193.8,
-        "high": 209.94,
-        "low": 192.21,
-        "prevClose": 190.86,
-        "change": 10,
-        "percentChange": 10,
-        "volume": 193090,
-        "turnover": 392.532661,
-        "reason": "Dividend - Rs 2.50 Per Share",
-        "reasonExDate": "21-Aug-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 925,
+        "open": 838.15,
+        "high": 940,
+        "low": 829.05,
+        "prevClose": 834.95,
+        "change": 10.79,
+        "percentChange": 10.79,
+        "volume": 43830,
+        "turnover": 365.01624,
+        "reason": "Dividend - Re 1 Per Share",
+        "reasonExDate": "17-Sep-2026",
+        "createdAt": "2026-09-28T11:36:21.757Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 10.79,
+            "ltp": 925
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 10.79,
+            "ltp": 925
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 10.79,
+            "ltp": 925
+          }
+        ]
       },
       {
-        "symbol": "DCMSIL",
+        "symbol": "COMFINTE",
         "series": "EQ",
-        "ltp": 77.46,
-        "open": 70.78,
-        "high": 77.46,
-        "low": 70.01,
-        "prevClose": 70.42,
-        "change": 10,
-        "percentChange": 10,
-        "volume": 273141,
-        "turnover": 202.45210920000002,
-        "reason": "Dividend - Re 0.40 Per Share",
-        "reasonExDate": "06-Jul-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 7.21,
+        "open": 6.63,
+        "high": 7.4,
+        "low": 6.57,
+        "prevClose": 6.51,
+        "change": 10.75,
+        "percentChange": 10.75,
+        "volume": 3901800,
+        "turnover": 277.80816,
+        "reason": "Dividend - Re 0.05 Per Share",
+        "reasonExDate": "11-Sep-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 10.75,
+            "ltp": 7.21
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 10.75,
+            "ltp": 7.21
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 10.75,
+            "ltp": 7.21
+          }
+        ]
       },
       {
         "symbol": "SUNFLAG",
         "series": "EQ",
-        "ltp": 390.55,
-        "open": 356.9,
-        "high": 390.55,
-        "low": 356.55,
-        "prevClose": 355.05,
+        "ltp": 451.7,
+        "open": 415.8,
+        "high": 451.7,
+        "low": 412.35,
+        "prevClose": 410.65,
         "change": 10,
         "percentChange": 10,
-        "volume": 823357,
-        "turnover": 3123.5694508999995,
+        "volume": 4467850,
+        "turnover": 19779.17195,
         "reason": "Dividend - Re 1 Per Share",
         "reasonExDate": "11-Sep-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "createdAt": "2026-09-28T11:36:21.757Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 10,
+            "ltp": 451.7
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 10,
+            "ltp": 451.7
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 10,
+            "ltp": 451.7
+          }
+        ]
       },
       {
-        "symbol": "SRGHFL",
+        "symbol": "HINDCON",
         "series": "EQ",
-        "ltp": 158.1,
-        "open": 150,
-        "high": 158.1,
-        "low": 147.85,
-        "prevClose": 143.75,
-        "change": 9.98,
-        "percentChange": 9.98,
-        "volume": 44909,
-        "turnover": 69.1957872,
+        "ltp": 30.36,
+        "open": 30.29,
+        "high": 30.36,
+        "low": 30,
+        "prevClose": 27.6,
+        "change": 10,
+        "percentChange": 10,
+        "volume": 167674,
+        "turnover": 50.872291600000004,
+        "reason": "Annual General Meeting/Dividend - Re 0.10 Per Share",
+        "reasonExDate": "13-Aug-2024",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 10,
+            "ltp": 30.36
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 10,
+            "ltp": 30.36
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 10,
+            "ltp": 30.36
+          }
+        ]
+      },
+      {
+        "symbol": "ARVEE",
+        "series": "EQ",
+        "ltp": 234.5,
+        "open": 213.19,
+        "high": 234.5,
+        "low": 213.19,
+        "prevClose": 213.19,
+        "change": 10,
+        "percentChange": 10,
+        "volume": 32319,
+        "turnover": 74.8960506,
         "reason": "Annual General Meeting",
-        "reasonExDate": "26-Jul-2024",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "reasonExDate": "20-Sep-2024",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 10,
+            "ltp": 234.5
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 10,
+            "ltp": 234.5
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 10,
+            "ltp": 234.5
+          }
+        ]
       },
       {
-        "symbol": "FILATEX",
+        "symbol": "AHCL",
         "series": "EQ",
-        "ltp": 111.08,
-        "open": 101.24,
-        "high": 111.25,
-        "low": 100.61,
-        "prevClose": 101.07,
-        "change": 9.9,
-        "percentChange": 9.9,
-        "volume": 12140288,
-        "turnover": 13144.2898176,
-        "reason": "Dividend - Re 0.30 Per Share",
-        "reasonExDate": "15-Sep-2026",
-        "createdAt": "2026-09-23T07:10:26.980Z",
-        "modifiedAt": "2026-09-23T07:10:26.980Z",
-        "stale": false
+        "ltp": 34.66,
+        "open": 32.25,
+        "high": 34.66,
+        "low": 32.24,
+        "prevClose": 31.51,
+        "change": 10,
+        "percentChange": 10,
+        "volume": 23572265,
+        "turnover": 7993.3550614999995,
+        "reason": "Face Value Split (Sub-Division) - From Rs 10/- Per Share To Rs 2/- Per Share",
+        "reasonExDate": "24-Apr-2026",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T12:00:06.705Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T11:36:21.757Z",
+            "percentChange": 10,
+            "ltp": 34.66
+          },
+          {
+            "time": "2026-09-28T11:39:39.908Z",
+            "percentChange": 10,
+            "ltp": 34.66
+          },
+          {
+            "time": "2026-09-28T12:00:06.705Z",
+            "percentChange": 10,
+            "ltp": 34.66
+          }
+        ]
+      },
+      {
+        "symbol": "POLYSPIN",
+        "series": "EQ",
+        "ltp": 31.89,
+        "open": 32,
+        "high": 32,
+        "low": 29.05,
+        "prevClose": 28.98,
+        "change": 10.04,
+        "percentChange": 10.04,
+        "volume": 372,
+        "turnover": 0.1130136,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T09:24:59.268Z",
+        "modifiedAt": "2026-09-28T09:26:35.742Z",
+        "stale": true
+      },
+      {
+        "symbol": "AUGMONT",
+        "series": "EQ",
+        "ltp": 965.65,
+        "open": 899,
+        "high": 965.65,
+        "low": 896,
+        "prevClose": 877.9,
+        "change": 10,
+        "percentChange": 10,
+        "volume": 971764,
+        "turnover": 9289.772310800001,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T09:26:35.742Z",
+        "stale": true
+      },
+      {
+        "symbol": "CUBEXTUB",
+        "series": "EQ",
+        "ltp": 167.46,
+        "open": 154.8,
+        "high": 167.46,
+        "low": 151,
+        "prevClose": 152.24,
+        "change": 10,
+        "percentChange": 10,
+        "volume": 1068468,
+        "turnover": 1751.6464391999998,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "16-Jul-2024",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T09:26:35.742Z",
+        "stale": true
+      },
+      {
+        "symbol": "AVANCE",
+        "series": "EQ",
+        "ltp": 0.89,
+        "open": 0.82,
+        "high": 0.89,
+        "low": 0.81,
+        "prevClose": 0.81,
+        "change": 9.88,
+        "percentChange": 9.88,
+        "volume": 10771680,
+        "turnover": 91.55928,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T09:24:59.268Z",
+        "modifiedAt": "2026-09-28T09:26:35.742Z",
+        "stale": true
+      },
+      {
+        "symbol": "EUROTEXIND",
+        "series": "EQ",
+        "ltp": 12.91,
+        "open": 12.9,
+        "high": 12.92,
+        "low": 12.1,
+        "prevClose": 11.75,
+        "change": 9.87,
+        "percentChange": 9.87,
+        "volume": 2597,
+        "turnover": 0.3344936,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "12-Sep-2024",
+        "createdAt": "2026-09-28T09:23:58.527Z",
+        "modifiedAt": "2026-09-28T09:23:58.527Z",
+        "stale": true
+      }
+    ]
+  },
+  "losers": {
+    "type": "losers",
+    "dayStartedAt": "2026-09-28T08:06:45.699Z",
+    "updatedAt": "2026-09-28T12:02:20.209Z",
+    "timestamp": "28-Sep-2026 16:00:00",
+    "count": 35,
+    "stocks": [
+      {
+        "symbol": "KOTYARK",
+        "series": "EQ",
+        "ltp": 26.5,
+        "open": 31.69,
+        "high": 31.69,
+        "low": 24.96,
+        "prevClose": 31.2,
+        "change": -15.06,
+        "percentChange": -15.06,
+        "volume": 1861015,
+        "turnover": 488.88864049999995,
+        "reason": "Dividend - Re 0.4545 Per Share",
+        "reasonExDate": "14-Aug-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -17.02,
+            "ltp": 25.89
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -16.99,
+            "ltp": 25.9
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -13.46,
+            "ltp": 27
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -15.06,
+            "ltp": 26.5
+          }
+        ]
+      },
+      {
+        "symbol": "MEDICO",
+        "series": "EQ",
+        "ltp": 22.3,
+        "open": 26.2,
+        "high": 26.21,
+        "low": 20.89,
+        "prevClose": 26,
+        "change": -14.23,
+        "percentChange": -14.23,
+        "volume": 3562547,
+        "turnover": 801.573075,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "29-Aug-2024",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -14.38,
+            "ltp": 22.26
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -14.38,
+            "ltp": 22.26
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -14.27,
+            "ltp": 22.29
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -14.23,
+            "ltp": 22.3
+          }
+        ]
+      },
+      {
+        "symbol": "PAISALO",
+        "series": "EQ",
+        "ltp": 78.66,
+        "open": 87.01,
+        "high": 88.71,
+        "low": 73.42,
+        "prevClose": 89.02,
+        "change": -11.64,
+        "percentChange": -11.64,
+        "volume": 37593061,
+        "turnover": 29841.3718218,
+        "reason": "Dividend - Re 0.10 Per Share",
+        "reasonExDate": "11-Sep-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": true,
+        "aiRecommendedAt": "2026-09-28T12:02:20.209Z",
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -16.74,
+            "ltp": 74.12
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -9.76,
+            "ltp": 80.33
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -10.48,
+            "ltp": 79.69
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -11.64,
+            "ltp": 78.66
+          }
+        ]
+      },
+      {
+        "symbol": "MONQ50",
+        "series": "EQ",
+        "ltp": 190,
+        "open": 219.97,
+        "high": 221.95,
+        "low": 184.15,
+        "prevClose": 214.61,
+        "change": -11.47,
+        "percentChange": -11.47,
+        "volume": 2184398,
+        "turnover": 4251.9307069999995,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -12.87,
+            "ltp": 187
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -12.87,
+            "ltp": 187
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -12.09,
+            "ltp": 188.66
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -11.47,
+            "ltp": 190
+          }
+        ]
+      },
+      {
+        "symbol": "NOIDATOLL",
+        "series": "EQ",
+        "ltp": 3.57,
+        "open": 3.97,
+        "high": 4,
+        "low": 3.57,
+        "prevClose": 3.96,
+        "change": -9.85,
+        "percentChange": -9.85,
+        "volume": 324907,
+        "turnover": 12.021559,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "10-Sep-2024",
+        "createdAt": "2026-09-28T09:29:50.728Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -9.09,
+            "ltp": 3.6
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.32,
+            "ltp": 3.67
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -9.85,
+            "ltp": 3.57
+          }
+        ]
+      },
+      {
+        "symbol": "ARMANFIN",
+        "series": "EQ",
+        "ltp": 1700,
+        "open": 1830.2,
+        "high": 1835.9,
+        "low": 1666.2,
+        "prevClose": 1885.6,
+        "change": -9.84,
+        "percentChange": -9.84,
+        "volume": 232152,
+        "turnover": 4003.2987336,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "20-Sep-2024",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": true,
+        "aiRecommendedAt": "2026-09-28T12:02:20.209Z",
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -9.37,
+            "ltp": 1709
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -9.31,
+            "ltp": 1710
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -9.82,
+            "ltp": 1700.5
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -9.84,
+            "ltp": 1700
+          }
+        ]
+      },
+      {
+        "symbol": "DANGEE",
+        "series": "EQ",
+        "ltp": 2.94,
+        "open": 3.32,
+        "high": 3.54,
+        "low": 2.94,
+        "prevClose": 3.26,
+        "change": -9.82,
+        "percentChange": -9.82,
+        "volume": 526284,
+        "turnover": 16.1569188,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "19-Sep-2024",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -9.82,
+            "ltp": 2.94
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -9.82,
+            "ltp": 2.94
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -9.82,
+            "ltp": 2.94
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -9.82,
+            "ltp": 2.94
+          }
+        ]
+      },
+      {
+        "symbol": "VTMLTD",
+        "series": "EQ",
+        "ltp": 37.55,
+        "open": 42.44,
+        "high": 43.11,
+        "low": 37.45,
+        "prevClose": 41.53,
+        "change": -9.58,
+        "percentChange": -9.58,
+        "volume": 348137,
+        "turnover": 137.6533698,
+        "reason": "Annual General Meeting / Div -  Re. 0.70 Per Share (70%)",
+        "reasonExDate": "10-Jun-2014",
+        "createdAt": "2026-09-28T09:46:44.057Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -8.5,
+            "ltp": 38
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -9.58,
+            "ltp": 37.55
+          }
+        ]
+      },
+      {
+        "symbol": "KIRANVYPAR",
+        "series": "EQ",
+        "ltp": 183.15,
+        "open": 195,
+        "high": 195,
+        "low": 180.55,
+        "prevClose": 201.15,
+        "change": -8.95,
+        "percentChange": -8.95,
+        "volume": 12146,
+        "turnover": 22.731239,
+        "reason": "Dividend - Re 1 Per Share",
+        "reasonExDate": "18-Sep-2026",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.03,
+            "ltp": 185
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -8.03,
+            "ltp": 185
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.63,
+            "ltp": 185.8
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.95,
+            "ltp": 183.15
+          }
+        ]
+      },
+      {
+        "symbol": "EKI",
+        "series": "EQ",
+        "ltp": 91.99,
+        "open": 102.79,
+        "high": 106,
+        "low": 90.9,
+        "prevClose": 100.99,
+        "change": -8.91,
+        "percentChange": -8.91,
+        "volume": 141967,
+        "turnover": 138.2474646,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -9.97,
+            "ltp": 90.92
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -9.99,
+            "ltp": 90.9
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -9.55,
+            "ltp": 91.35
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.91,
+            "ltp": 91.99
+          }
+        ]
+      },
+      {
+        "symbol": "NPST",
+        "series": "EQ",
+        "ltp": 1639.8,
+        "open": 1812.6,
+        "high": 1813,
+        "low": 1625.1,
+        "prevClose": 1796.3,
+        "change": -8.71,
+        "percentChange": -8.71,
+        "volume": 110142,
+        "turnover": 1850.3745858000002,
+        "reason": "Dividend - Rs 2 Per Share",
+        "reasonExDate": "18-Sep-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.29,
+            "ltp": 1647.4
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -8.4,
+            "ltp": 1645.4
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -9.29,
+            "ltp": 1629.4
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.71,
+            "ltp": 1639.8
+          }
+        ]
+      },
+      {
+        "symbol": "RSL",
+        "series": "EQ",
+        "ltp": 167.5,
+        "open": 182.41,
+        "high": 182.41,
+        "low": 165.92,
+        "prevClose": 183.46,
+        "change": -8.7,
+        "percentChange": -8.7,
+        "volume": 799193,
+        "turnover": 1357.5891491,
+        "reason": "Dividend - Re 0.50 Per Share",
+        "reasonExDate": "16-Sep-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.09,
+            "ltp": 168.62
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -8.23,
+            "ltp": 168.36
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -8.81,
+            "ltp": 167.29
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.7,
+            "ltp": 167.5
+          }
+        ]
+      },
+      {
+        "symbol": "ANTELOPUS",
+        "series": "EQ",
+        "ltp": 1155,
+        "open": 1260,
+        "high": 1260,
+        "low": 1120.85,
+        "prevClose": 1261.7,
+        "change": -8.46,
+        "percentChange": -8.46,
+        "volume": 1450659,
+        "turnover": 17154.7680045,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "22-Sep-2023",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.52,
+            "ltp": 1154.25
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -8.58,
+            "ltp": 1153.5
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -8,
+            "ltp": 1160.8
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.46,
+            "ltp": 1155
+          }
+        ]
+      },
+      {
+        "symbol": "ASIANHOTNR",
+        "series": "EQ",
+        "ltp": 362,
+        "open": 395,
+        "high": 396.05,
+        "low": 362,
+        "prevClose": 394.35,
+        "change": -8.2,
+        "percentChange": -8.2,
+        "volume": 10253,
+        "turnover": 38.8752748,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "20-Sep-2024",
+        "createdAt": "2026-09-28T12:02:20.209Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.2,
+            "ltp": 362
+          }
+        ]
+      },
+      {
+        "symbol": "LIBAS",
+        "series": "EQ",
+        "ltp": 11.37,
+        "open": 12.95,
+        "high": 12.95,
+        "low": 11.1,
+        "prevClose": 12.38,
+        "change": -8.16,
+        "percentChange": -8.16,
+        "volume": 196682,
+        "turnover": 22.933121200000002,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "20-Sep-2024",
+        "createdAt": "2026-09-28T12:02:20.209Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.16,
+            "ltp": 11.37
+          }
+        ]
+      },
+      {
+        "symbol": "KDGREEN",
+        "series": "EQ",
+        "ltp": 46.06,
+        "open": 49.5,
+        "high": 51,
+        "low": 46.06,
+        "prevClose": 50.1,
+        "change": -8.06,
+        "percentChange": -8.06,
+        "volume": 56641,
+        "turnover": 27.470885,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T12:02:20.209Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -8.06,
+            "ltp": 46.06
+          }
+        ]
+      },
+      {
+        "symbol": "OMAXE",
+        "series": "EQ",
+        "ltp": 109.25,
+        "open": 110,
+        "high": 116.04,
+        "low": 108.01,
+        "prevClose": 118.53,
+        "change": -7.83,
+        "percentChange": -7.83,
+        "volume": 1131311,
+        "turnover": 1263.4481248,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "20-Sep-2024",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -7.16,
+            "ltp": 110.04
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -6.93,
+            "ltp": 110.32
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -7.83,
+            "ltp": 109.25
+          }
+        ]
+      },
+      {
+        "symbol": "ELECTHERM",
+        "series": "EQ",
+        "ltp": 805.1,
+        "open": 850,
+        "high": 870,
+        "low": 786.05,
+        "prevClose": 873.35,
+        "change": -7.81,
+        "percentChange": -7.81,
+        "volume": 69918,
+        "turnover": 562.5812034,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "23-Sep-2015",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.38,
+            "ltp": 800.2
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -6.91,
+            "ltp": 813
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -8.28,
+            "ltp": 801
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -7.81,
+            "ltp": 805.1
+          }
+        ]
+      },
+      {
+        "symbol": "MOQUALITY",
+        "series": "EQ",
+        "ltp": 191.58,
+        "open": 198.3,
+        "high": 198.7,
+        "low": 190.5,
+        "prevClose": 207.59,
+        "change": -7.71,
+        "percentChange": -7.71,
+        "volume": 40019,
+        "turnover": 76.5243318,
+        "reason": "",
+        "reasonExDate": "",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": false,
+        "aiRecommendedAt": null,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.21,
+            "ltp": 190.55
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -8,
+            "ltp": 190.98
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.09,
+            "ltp": 192.88
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -7.71,
+            "ltp": 191.58
+          }
+        ]
+      },
+      {
+        "symbol": "NOCIL",
+        "series": "EQ",
+        "ltp": 175.02,
+        "open": 188.05,
+        "high": 188.05,
+        "low": 174,
+        "prevClose": 188.41,
+        "change": -7.11,
+        "percentChange": -7.11,
+        "volume": 1513112,
+        "turnover": 2709.8322808,
+        "reason": "Dividend - Rs 1.50 Per Share",
+        "reasonExDate": "24-Jul-2026",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T12:02:20.209Z",
+        "stale": false,
+        "aiRecommended": true,
+        "aiRecommendedAt": "2026-09-28T12:02:20.209Z",
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -6.93,
+            "ltp": 175.35
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -6.96,
+            "ltp": 175.3
+          },
+          {
+            "time": "2026-09-28T12:02:20.209Z",
+            "percentChange": -7.11,
+            "ltp": 175.02
+          }
+        ]
+      },
+      {
+        "symbol": "AERONEU",
+        "series": "EQ",
+        "ltp": 73.7,
+        "open": 80.01,
+        "high": 80.01,
+        "low": 73,
+        "prevClose": 80.22,
+        "change": -8.13,
+        "percentChange": -8.13,
+        "volume": 28788,
+        "turnover": 21.7838796,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "05-Jul-2024",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T09:46:44.057Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.05,
+            "ltp": 73.76
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -8.13,
+            "ltp": 73.7
+          }
+        ]
+      },
+      {
+        "symbol": "RKEC",
+        "series": "EQ",
+        "ltp": 22.41,
+        "open": 23.8,
+        "high": 25.7,
+        "low": 22.1,
+        "prevClose": 24.26,
+        "change": -7.63,
+        "percentChange": -7.63,
+        "volume": 135919,
+        "turnover": 31.8594136,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "17-Sep-2024",
+        "createdAt": "2026-09-28T09:46:44.057Z",
+        "modifiedAt": "2026-09-28T09:46:44.057Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.63,
+            "ltp": 22.41
+          }
+        ]
+      },
+      {
+        "symbol": "RAMBHAJO",
+        "series": "EQ",
+        "ltp": 265.36,
+        "open": 282.44,
+        "high": 282.44,
+        "low": 263,
+        "prevClose": 286.23,
+        "change": -7.29,
+        "percentChange": -7.29,
+        "volume": 804602,
+        "turnover": 2166.7127258,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T09:46:44.057Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -6.94,
+            "ltp": 266.36
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.29,
+            "ltp": 265.36
+          }
+        ]
+      },
+      {
+        "symbol": "CREATIVEYE",
+        "series": "EQ",
+        "ltp": 5.75,
+        "open": 6,
+        "high": 6.24,
+        "low": 5.65,
+        "prevClose": 6.19,
+        "change": -7.11,
+        "percentChange": -7.11,
+        "volume": 18155,
+        "turnover": 1.0511745,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "23-Sep-2024",
+        "createdAt": "2026-09-28T09:46:44.057Z",
+        "modifiedAt": "2026-09-28T09:46:44.057Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.11,
+            "ltp": 5.75
+          }
+        ]
+      },
+      {
+        "symbol": "PRITI",
+        "series": "EQ",
+        "ltp": 31.39,
+        "open": 32.6,
+        "high": 34.99,
+        "low": 30.79,
+        "prevClose": 33.78,
+        "change": -7.08,
+        "percentChange": -7.08,
+        "volume": 28067,
+        "turnover": 8.8523318,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T09:46:44.057Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -7.05,
+            "ltp": 31.4
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -6.9,
+            "ltp": 31.45
+          },
+          {
+            "time": "2026-09-28T09:46:44.057Z",
+            "percentChange": -7.08,
+            "ltp": 31.39
+          }
+        ]
+      },
+      {
+        "symbol": "LAMBODHARA",
+        "series": "EQ",
+        "ltp": 132.85,
+        "open": 141,
+        "high": 141,
+        "low": 131.86,
+        "prevClose": 144.57,
+        "change": -8.11,
+        "percentChange": -8.11,
+        "volume": 30125,
+        "turnover": 41.120625,
+        "reason": "Dividend - Re 0.50 Per Share",
+        "reasonExDate": "22-Sep-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T09:29:50.728Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -8.14,
+            "ltp": 132.8
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -8.11,
+            "ltp": 132.85
+          }
+        ]
+      },
+      {
+        "symbol": "HEROMOTORS",
+        "series": "EQ",
+        "ltp": 131.6,
+        "open": 152.37,
+        "high": 155.85,
+        "low": 127.53,
+        "prevClose": 141.69,
+        "change": -7.12,
+        "percentChange": -7.12,
+        "volume": 127115502,
+        "turnover": 172355.9091618,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T09:27:19.123Z",
+        "modifiedAt": "2026-09-28T09:29:50.728Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:27:19.123Z",
+            "percentChange": -7.26,
+            "ltp": 131.41
+          },
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -7.12,
+            "ltp": 131.6
+          }
+        ]
+      },
+      {
+        "symbol": "INDIANCARD",
+        "series": "EQ",
+        "ltp": 186.9,
+        "open": 197,
+        "high": 198.9,
+        "low": 186.9,
+        "prevClose": 200.59,
+        "change": -6.82,
+        "percentChange": -6.82,
+        "volume": 11367,
+        "turnover": 21.7325673,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "09-Sep-2024",
+        "createdAt": "2026-09-28T09:29:50.728Z",
+        "modifiedAt": "2026-09-28T09:29:50.728Z",
+        "stale": true,
+        "history": [
+          {
+            "time": "2026-09-28T09:29:50.728Z",
+            "percentChange": -6.82,
+            "ltp": 186.9
+          }
+        ]
+      },
+      {
+        "symbol": "CENTEXT-RE",
+        "series": "BE",
+        "ltp": 1.9,
+        "open": 2.08,
+        "high": 2.1,
+        "low": 1.76,
+        "prevClose": 2.08,
+        "change": -8.65,
+        "percentChange": -8.65,
+        "volume": 80795,
+        "turnover": 1.632059,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
+      },
+      {
+        "symbol": "GKB",
+        "series": "EQ",
+        "ltp": 63.41,
+        "open": 68.2,
+        "high": 68.2,
+        "low": 63.2,
+        "prevClose": 68.54,
+        "change": -7.48,
+        "percentChange": -7.48,
+        "volume": 4401,
+        "turnover": 2.8936575,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "26-Aug-2014",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
+      },
+      {
+        "symbol": "ATALREAL",
+        "series": "EQ",
+        "ltp": 12.61,
+        "open": 13.5,
+        "high": 13.5,
+        "low": 12.21,
+        "prevClose": 13.52,
+        "change": -6.73,
+        "percentChange": -6.73,
+        "volume": 2995380,
+        "turnover": 373.823424,
+        "reason": "Rights 1:2 @ Premium Rs 5/-",
+        "reasonExDate": "22-Aug-2024",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
+      },
+      {
+        "symbol": "JSFB",
+        "series": "EQ",
+        "ltp": 499.75,
+        "open": 537,
+        "high": 541.1,
+        "low": 498.05,
+        "prevClose": 535.25,
+        "change": -6.63,
+        "percentChange": -6.63,
+        "volume": 861707,
+        "turnover": 4401.9440388,
+        "reason": "Annual General Meeting",
+        "reasonExDate": "11-Jun-2024",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
+      },
+      {
+        "symbol": "DEEPA",
+        "series": "EQ",
+        "ltp": 199.36,
+        "open": 212.9,
+        "high": 217.16,
+        "low": 196.6,
+        "prevClose": 213.12,
+        "change": -6.46,
+        "percentChange": -6.46,
+        "volume": 7245245,
+        "turnover": 15190.380667000001,
+        "reason": "-",
+        "reasonExDate": "-",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
+      },
+      {
+        "symbol": "SHILGRAVQ",
+        "series": "EQ",
+        "ltp": 139.99,
+        "open": 149,
+        "high": 149,
+        "low": 138,
+        "prevClose": 149.5,
+        "change": -6.36,
+        "percentChange": -6.36,
+        "volume": 12760,
+        "turnover": 18.105164,
+        "reason": "Dividend - Rs 2.10 Per Share",
+        "reasonExDate": "16-Sep-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
+      },
+      {
+        "symbol": "SIS",
+        "series": "EQ",
+        "ltp": 392.45,
+        "open": 418.4,
+        "high": 418.4,
+        "low": 378.5,
+        "prevClose": 418.4,
+        "change": -6.2,
+        "percentChange": -6.2,
+        "volume": 1519770,
+        "turnover": 5979.990996,
+        "reason": "Interim Dividend - Rs 7 Per Share",
+        "reasonExDate": "06-Feb-2026",
+        "createdAt": "2026-09-28T08:06:45.699Z",
+        "modifiedAt": "2026-09-28T08:06:45.699Z",
+        "stale": true
       }
     ]
   }
