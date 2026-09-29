@@ -1,5 +1,7 @@
 // API client for live trending stocks (top gainers / losers) from the proxy.
 
+import { getSelectedModel } from './modelApi.js'
+
 export async function fetchTrending(type = 'gainers', force = false) {
   const params = new URLSearchParams({ type })
   if (force) params.set('refresh', '1')
@@ -15,7 +17,7 @@ export async function streamTrendingAnalysis(type, stocks, onToken, signal) {
     res = await fetch('/api/analyze-trending', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, stocks }),
+      body: JSON.stringify({ type, stocks, model: getSelectedModel() }),
       signal
     })
   } catch (err) {

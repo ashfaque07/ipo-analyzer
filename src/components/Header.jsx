@@ -1,6 +1,7 @@
 // App header: title, source link, live badge and refresh button.
 
 import { ICONS } from '../constants/ui.js'
+import ModelSelector from './ModelSelector.jsx'
 
 const HEADINGS = {
   ipos: {
@@ -41,6 +42,7 @@ export default function Header({ view = 'ipos', source, count, onRefresh, theme,
         {view === 'ipos' && source === 'live' && <span className="badge">Live · {count} IPOs</span>}
       </p>
       <div className="header-actions">
+        <ModelSelector />
         {view === 'ipos' && (
           <button className="refresh" onClick={onRefresh}>{ICONS.refresh} Refresh</button>
         )}

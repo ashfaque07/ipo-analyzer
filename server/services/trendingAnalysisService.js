@@ -102,8 +102,8 @@ function cacheKey(type, stocks) {
 }
 
 // Async generator that yields markdown chunks for the best-pick analysis.
-export async function* streamTrendingAnalysis(type, stocks) {
-  yield* streamCompletion(buildMessages(type, stocks), cacheKey(type, stocks))
+export async function* streamTrendingAnalysis(type, stocks, model) {
+  yield* streamCompletion(buildMessages(type, stocks), cacheKey(type, stocks), model)
 }
 
 // Ask the AI to pick the best `limit` stocks from the trending list and return

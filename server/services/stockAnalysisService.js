@@ -41,7 +41,7 @@ function buildMessages(query) {
 }
 
 // Async generator that yields markdown chunks for a stock's fundamental analysis.
-export async function* streamStockAnalysis(query) {
+export async function* streamStockAnalysis(query, model) {
   const normalized = String(query).trim()
-  yield* streamCompletion(buildMessages(normalized), `stock:${normalized.toLowerCase()}`)
+  yield* streamCompletion(buildMessages(normalized), `stock:${normalized.toLowerCase()}`, model)
 }

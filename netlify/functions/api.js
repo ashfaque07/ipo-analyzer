@@ -14,6 +14,7 @@ import {
   loadHolidays,
   isMarketOpen
 } from '../../server/services/trendingService.js'
+import { AI_MODEL_NAMES, DEFAULT_MODEL } from '../../server/config/index.js'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -34,6 +35,14 @@ export const handler = async (event) => {
   }
 
   try {
+    if (path.includes('/models')) {
+      return {
+        statusCode: 200,
+        headers: { ...CORS, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ models: AI_MODEL_NAMES, default: DEFAULT_MODEL })
+      }
+    }
+
     if (path.includes('/ipos')) {
       const data = await getIpos()
       return {
@@ -77,7 +86,7 @@ export const handler = async (event) => {
 
       let trendingText = ''
       try {
-        for await (const token of streamTrendingAnalysis(trendType, trendStocks)) {
+        for await (const token of streamTrendingAnalysis(trendType, trendStocks, payload?.model)) {
           trendingText += token
         }
       } catch (err) {
@@ -164,8 +173,11 @@ export const handler = async (event) => {
       }
 
       let query
+      let stockModel
       try {
-        query = JSON.parse(event.body || '{}')?.query?.trim()
+        const parsed = JSON.parse(event.body || '{}')
+        query = parsed?.query?.trim()
+        stockModel = parsed?.model
       } catch {
         return {
           statusCode: 400,
@@ -183,7 +195,7 @@ export const handler = async (event) => {
 
       let stockText = ''
       try {
-        for await (const token of streamStockAnalysis(query)) {
+        for await (const token of streamStockAnalysis(query, stockModel)) {
           stockText += token
         }
       } catch (err) {
@@ -234,7 +246,7 @@ export const handler = async (event) => {
       // tokens and return the full analysis text at once.
       let text = ''
       try {
-        for await (const token of streamAnalysis(ipo)) {
+        for await (const token of streamAnalysis(ipo, ipo.model)) {
           text += token
         }
       } catch (err) {

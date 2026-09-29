@@ -1,10 +1,10 @@
 // Real-time AI IPO analysis via an OpenAI-compatible streaming endpoint
 // (Gemini by default). Yields text tokens as they arrive from the provider.
 
-import { AI } from '../config/index.js'
+import { AI_PROVIDERS, getModelFallbacks } from '../config/index.js'
 
 export function isAiConfigured() {
-  return Boolean(AI.apiKey)
+  return AI_PROVIDERS.length > 0
 }
 
 // In-memory cache of generated summaries, keyed by the IPO's analysis-relevant
@@ -92,16 +92,20 @@ function buildMessages(ipo) {
 // Async generator that yields text chunks streamed from the AI provider.
 // Returns a cached summary instantly on a hit; otherwise streams from the AI,
 // retries transient errors (503/429) with backoff and falls back across models,
-// then caches the full result.
-export async function* streamAnalysis(ipo) {
-  yield* streamCompletion(buildMessages(ipo), cacheKey(ipo))
+// then caches the full result. `model` selects which configured model to use.
+export async function* streamAnalysis(ipo, model) {
+  yield* streamCompletion(buildMessages(ipo), cacheKey(ipo), model)
 }
 
 // Generic streaming completion helper shared by IPO and stock analysis.
 // Yields text chunks from the AI provider, retries transient errors (503/429)
-// with backoff, falls back across models, and caches the full result by key.
-export async function* streamCompletion(messages, key) {
-  const cached = getCached(key)
+// with backoff, falls back across the configured models (starting with the
+// selected one), and caches the full result by key. Output is cached per model
+// since different models produce different text.
+export async function* streamCompletion(messages, key, selectedModel) {
+  const fallbacks = getModelFallbacks(selectedModel)
+  const cacheId = `${selectedModel || 'default'}:${key}`
+  const cached = getCached(cacheId)
   if (cached) {
     yield cached
     return
@@ -110,15 +114,15 @@ export async function* streamCompletion(messages, key) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   let lastError = null
 
-  for (const model of AI.models) {
+  for (const { model, apiKey, baseUrl } of fallbacks) {
     for (let attempt = 0; attempt < 3; attempt++) {
       let upstream
       try {
-        upstream = await fetch(`${AI.baseUrl}/chat/completions`, {
+        upstream = await fetch(`${baseUrl}/chat/completions`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${AI.apiKey}`
+            Authorization: `Bearer ${apiKey}`
           },
           body: JSON.stringify({ model, messages, temperature: 0.4, stream: true })
         })
@@ -134,7 +138,7 @@ export async function* streamCompletion(messages, key) {
           full += token
           yield token
         }
-        setCached(key, full)
+        setCached(cacheId, full)
         return
       }
 

@@ -52,7 +52,7 @@ export async function handleAnalyzeTrending(req, res) {
   res.setHeader('Cache-Control', 'no-cache')
 
   try {
-    for await (const token of streamTrendingAnalysis(type, stocks)) {
+    for await (const token of streamTrendingAnalysis(type, stocks, body?.model)) {
       res.write(token)
     }
   } catch (err) {

@@ -67,21 +67,77 @@ export const REPORT_ID = 331
 export const SITE_HOST = 'https://www.investorgain.com'
 export const REPORT_REFERER = 'https://www.investorgain.com/report/ipo-gmp-live/331/'
 
-// AI provider (OpenAI-compatible) used for real-time IPO analysis. Configure via
-// .env. If no API key is set, the client falls back to a local heuristic.
-export const AI = {
-  apiKey: process.env.AI_API_KEY || process.env.GEMINI_API_KEY || '',
-  baseUrl: (
-    process.env.AI_BASE_URL ||
-    'https://generativelanguage.googleapis.com/v1beta/openai'
-  ).replace(/\/+$/, ''),
-  // Models tried in order; if one is overloaded (503) or rate-limited (429) we
-  // fall back to the next. Configure a comma-separated list via AI_MODELS.
-  models: (process.env.AI_MODELS || process.env.AI_MODEL ||
-    'gemini-3.6-flash,gemini-3.6-flash-lite,gemini-3.5-flash,gemini-2.5-flash')
+// AI providers (OpenAI-compatible endpoints) used for real-time analysis.
+// Each provider is enabled only when its API key env var is set; its selectable
+// models come from the matching comma-separated *_MODELS env var. This lets the
+// user switch between providers/models from the UI dropdown, so hitting one
+// provider's daily limit (e.g. Gemini) can be worked around by picking another.
+const splitModels = (value) =>
+  String(value || '')
     .split(',')
     .map((m) => m.trim())
     .filter(Boolean)
+
+const PROVIDER_DEFS = [
+  {
+    name: 'gemini',
+    apiKey: process.env.GEMINI_API_KEY || '',
+    baseUrl: process.env.GEMINI_BASE_URL ||
+      'https://generativelanguage.googleapis.com/v1beta/openai',
+    models: splitModels(process.env.GEMINI_MODELS)
+  },
+  {
+    name: 'groq',
+    apiKey: process.env.GROQ_API_KEY || '',
+    baseUrl: process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1',
+    models: splitModels(process.env.GROQ_MODELS)
+  },
+  {
+    name: 'openai',
+    apiKey: process.env.OPENAI_API_KEY || '',
+    baseUrl: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1',
+    models: splitModels(process.env.OPENAI_MODELS)
+  },
+  // Generic OpenAI-compatible provider configured via the legacy AI_* vars.
+  {
+    name: 'custom',
+    apiKey: process.env.AI_API_KEY || '',
+    baseUrl: process.env.AI_BASE_URL ||
+      'https://generativelanguage.googleapis.com/v1beta/openai',
+    models: splitModels(process.env.AI_MODELS || process.env.AI_MODEL)
+  }
+]
+
+// Only providers with an API key AND at least one model are active.
+export const AI_PROVIDERS = PROVIDER_DEFS.filter(
+  (p) => p.apiKey && p.models.length
+).map((p) => ({ ...p, baseUrl: p.baseUrl.replace(/\/+$/, '') }))
+
+// Flat, ordered list of every selectable model with its provider config.
+export const AI_MODELS = AI_PROVIDERS.flatMap((p) =>
+  p.models.map((model) => ({
+    model,
+    provider: p.name,
+    apiKey: p.apiKey,
+    baseUrl: p.baseUrl
+  }))
+)
+
+// Plain model-name list (for the UI dropdown) and the default selection.
+export const AI_MODEL_NAMES = AI_MODELS.map((m) => m.model)
+export const DEFAULT_MODEL = AI_MODEL_NAMES[0] || ''
+
+// Resolve the provider config for a given model name (null if unknown).
+export function getModelConfig(model) {
+  return AI_MODELS.find((m) => m.model === model) || null
+}
+
+// Ordered list of model configs to try for a request: the selected model first,
+// then every other configured model as fallback (for rate-limit / overload).
+export function getModelFallbacks(selected) {
+  const chosen = getModelConfig(selected)
+  const rest = AI_MODELS.filter((m) => m.model !== chosen?.model)
+  return chosen ? [chosen, ...rest] : AI_MODELS
 }
 
 // Maps InvestorGain status codes to human-readable labels.

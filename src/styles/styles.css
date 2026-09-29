@@ -130,6 +130,16 @@ h1 {
   display: flex; align-items: center; gap: 10px;
 }
 .header-actions .refresh { position: static; }
+.model-selector { display: inline-flex; align-items: center; }
+.model-selector select {
+  height: 40px; border-radius: 10px; cursor: pointer;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: inherit; font-size: 13px; font-weight: 600;
+  padding: 0 10px; max-width: 200px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.model-selector select:hover { border-color: var(--brand); }
+.model-selector select:focus { outline: none; border-color: var(--brand); }
 .theme-toggle {
   width: 40px; height: 40px; border-radius: 10px; cursor: pointer;
   background: var(--surface-2); border: 1px solid var(--border);
