@@ -1,8 +1,8 @@
 // Modal that shows the % change history for a single trending stock, with one
 // row per refresh (time + % change + LTP).
 
-import { useEffect } from 'react'
 import { ICONS } from '../constants/ui.js'
+import Modal from './Modal.jsx'
 
 const fmtNum = (n, d = 2) =>
   n === null || n === undefined || Number.isNaN(n)
@@ -22,38 +22,17 @@ const fmtTime = (iso) => {
 }
 
 export default function TrendingHistoryModal({ stock, onClose }) {
-  // Lock background scroll while the modal is open and close on Escape.
-  useEffect(() => {
-    if (!stock) return
-    const previous = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => {
-      document.body.style.overflow = previous
-      window.removeEventListener('keydown', onKeyDown)
-    }
-  }, [stock, onClose])
-
   if (!stock) return null
 
   // Oldest first (chronological), numbered 1..n.
   const history = stock.history || []
 
   return (
-    <div className="modal" onClick={onClose}>
-      <div className="modal-body" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-head">
-          <h2>% Change History · {stock.symbol}</h2>
-          <button className="close" onClick={onClose}>{ICONS.close}</button>
-        </div>
-
-        {!history.length ? (
-          <p className="info">No history recorded yet for this stock.</p>
-        ) : (
-          <div className="trending-table-wrap" style={{ marginTop: 14 }}>
+    <Modal title={`% Change History · ${stock.symbol}`} onClose={onClose}>
+      {!history.length ? (
+        <p className="info">No history recorded yet for this stock.</p>
+      ) : (
+        <div className="trending-table-wrap" style={{ marginTop: 14 }}>
             <table className="trending-table" style={{ minWidth: 'auto' }}>
               <thead>
                 <tr>
@@ -82,8 +61,7 @@ export default function TrendingHistoryModal({ stock, onClose }) {
               </tbody>
             </table>
           </div>
-        )}
-      </div>
-    </div>
+      )}
+    </Modal>
   )
 }

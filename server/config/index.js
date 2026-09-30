@@ -10,7 +10,6 @@ const __dirname = import.meta.url ? dirname(fileURLToPath(import.meta.url)) : pr
 
 export const PORT = process.env.PORT || 8787
 
-// JSON file where every IPO ever seen is persisted for future reference.
 // On serverless platforms (Netlify / AWS Lambda) the app filesystem is
 // read-only except for /tmp, so persist there. We detect the serverless
 // runtime via common env vars set by those platforms.
@@ -20,10 +19,6 @@ export const IS_SERVERLESS = Boolean(
     process.env.AWS_LAMBDA_FUNCTION_NAME ||
     process.env.AWS_EXECUTION_ENV
 )
-
-export const DATA_FILE = IS_SERVERLESS
-  ? '/tmp/ipos.json'
-  : join(__dirname, '..', 'data', 'ipos.json')
 
 // JSON file where the daily trending-stocks snapshot is persisted (per type).
 export const TRENDING_FILE = IS_SERVERLESS
@@ -80,17 +75,17 @@ const splitModels = (value) =>
 
 const PROVIDER_DEFS = [
   {
+    name: 'groq',
+    apiKey: process.env.GROQ_API_KEY || '',
+    baseUrl: process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1',
+    models: splitModels(process.env.GROQ_MODELS)
+  },
+  {
     name: 'gemini',
     apiKey: process.env.GEMINI_API_KEY || '',
     baseUrl: process.env.GEMINI_BASE_URL ||
       'https://generativelanguage.googleapis.com/v1beta/openai',
     models: splitModels(process.env.GEMINI_MODELS)
-  },
-  {
-    name: 'groq',
-    apiKey: process.env.GROQ_API_KEY || '',
-    baseUrl: process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1',
-    models: splitModels(process.env.GROQ_MODELS)
   },
   {
     name: 'openai',
@@ -132,12 +127,15 @@ export function getModelConfig(model) {
   return AI_MODELS.find((m) => m.model === model) || null
 }
 
-// Ordered list of model configs to try for a request: the selected model first,
-// then every other configured model as fallback (for rate-limit / overload).
+// Ordered list of model configs to try for a request. When the user explicitly
+// selects a model, ONLY that model is used (no fallback) so the result and any
+// error reflect exactly their choice. When nothing is selected, the default
+// model is used on its own as well.
 export function getModelFallbacks(selected) {
   const chosen = getModelConfig(selected)
-  const rest = AI_MODELS.filter((m) => m.model !== chosen?.model)
-  return chosen ? [chosen, ...rest] : AI_MODELS
+  if (chosen) return [chosen]
+  const fallback = AI_MODELS[0]
+  return fallback ? [fallback] : []
 }
 
 // Maps InvestorGain status codes to human-readable labels.

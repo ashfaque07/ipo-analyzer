@@ -9,7 +9,7 @@ const HEADINGS = {
     logo: ICONS.ipos,
     subtitle: (
       <>
-        Live IPO data (GMP, rating, dates &amp; more) from{' '}
+        <span>Live IPO data (GMP, rating, dates &amp; more) from {' '}</span>
         <a href="https://www.investorgain.com/report/ipo-gmp-live/331/" target="_blank" rel="noreferrer">
           InvestorGain Live IPO GMP
         </a>

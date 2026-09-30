@@ -9,6 +9,7 @@ export function useTrending() {
   const [timestamp, setTimestamp] = useState(null)
   const [dayStartedAt, setDayStartedAt] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
+  const [marketOpen, setMarketOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState(null)
@@ -24,6 +25,7 @@ export function useTrending() {
       setTimestamp(data.timestamp || null)
       setDayStartedAt(data.dayStartedAt || null)
       setUpdatedAt(data.updatedAt || null)
+      setMarketOpen(Boolean(data.marketOpen))
     } catch (err) {
       setError(err.message)
       if (!force) setStocks([])
@@ -44,6 +46,7 @@ export function useTrending() {
     timestamp,
     dayStartedAt,
     updatedAt,
+    marketOpen,
     loading,
     refreshing,
     error,

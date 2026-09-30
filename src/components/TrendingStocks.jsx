@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm'
 import { useTrending } from '../hooks/useTrending.js'
 import { useTrendingAnalysis } from '../hooks/useTrendingAnalysis.js'
 import TrendingHistoryModal from './TrendingHistoryModal.jsx'
+import Modal from './Modal.jsx'
 import { ICONS } from '../constants/ui.js'
 
 const fmtNum = (n, d = 2) =>
@@ -64,6 +65,7 @@ export default function TrendingStocks() {
     timestamp,
     dayStartedAt,
     updatedAt,
+    marketOpen,
     loading,
     refreshing,
     error,
@@ -154,6 +156,14 @@ export default function TrendingStocks() {
           </button>
         </div>
         <div className="trending-meta">
+          {marketOpen ? (
+            <span className="badge" title="NSE market is open">LIVE</span>
+          ) : (
+            <span className="market-status closed" title="NSE market is closed">
+              <span className="market-dot" />
+              Market Closed
+            </span>
+          )}
           {dayStartedAt && <span className="trending-time">Day start {fmtTime(dayStartedAt)}</span>}
           {updatedAt && <span className="trending-time">Updated {fmtTime(updatedAt)}</span>}
           {timestamp && <span className="trending-time">NSE {timestamp}</span>}
@@ -256,24 +266,21 @@ export default function TrendingStocks() {
       <TrendingHistoryModal stock={selected} onClose={() => setSelected(null)} />
 
       {(bestPick || analyzeError) && (
-        <div className="modal" onClick={resetBest}>
-          <div className="modal-body" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-head">
-              <h2>{ICONS.ai} AI Best Trending Pick · {type === 'losers' ? 'Losers' : 'Gainers'}</h2>
-              <button className="close" onClick={resetBest}>✕</button>
+        <Modal
+          title={`AI Best Trending Pick · ${type === 'losers' ? 'Losers' : 'Gainers'}`}
+          onClose={resetBest}
+        >
+          {analyzeError && <p className="error">{analyzeError}</p>}
+          {analyzing && !bestPick?.summary && (
+            <p className="info">{ICONS.ai} Ranking trending stocks in real time…</p>
+          )}
+          {bestPick && (
+            <div className="summary markdown">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{bestPick.summary}</ReactMarkdown>
+              {analyzing && <span className="cursor">▍</span>}
             </div>
-            {analyzeError && <p className="error">{analyzeError}</p>}
-            {analyzing && !bestPick?.summary && (
-              <p className="info">{ICONS.ai} Ranking trending stocks in real time…</p>
-            )}
-            {bestPick && (
-              <div className="summary markdown">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{bestPick.summary}</ReactMarkdown>
-                {analyzing && <span className="cursor">▍</span>}
-              </div>
-            )}
-          </div>
-        </div>
+          )}
+        </Modal>
       )}
     </section>
   )

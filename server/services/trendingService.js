@@ -233,7 +233,7 @@ export async function refreshTrending(rawType = 'gainers') {
   }
 
   await writeSnapshot(type, snapshot)
-  return { source: 'live', ...snapshot }
+  return { source: 'live', marketOpen: isMarketOpen(), ...snapshot }
 }
 
 // Read the persisted snapshot for the endpoint. Falls back to a live refresh
@@ -242,8 +242,13 @@ export async function refreshTrending(rawType = 'gainers') {
 export async function readTrending(rawType = 'gainers') {
   const type = NSE_INDEX[rawType] ? rawType : 'gainers'
   const snapshot = await readSnapshot(type)
-  if (snapshot && Array.isArray(snapshot.stocks) && snapshot.stocks.length) {
-    return { source: 'cache', ...snapshot }
+  // Only serve the cache when it belongs to the current IST trading day.
+  // A snapshot from a previous day would otherwise leak yesterday's stocks
+  // until the scheduler runs its first refresh.
+  const isFromToday =
+    snapshot?.dayStartedAt && istDayKey(new Date(snapshot.dayStartedAt)) === istDayKey()
+  if (isFromToday && Array.isArray(snapshot.stocks) && snapshot.stocks.length) {
+    return { source: 'cache', marketOpen: isMarketOpen(), ...snapshot }
   }
   return refreshTrending(type)
 }

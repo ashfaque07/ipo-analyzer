@@ -2,6 +2,7 @@
 // (Gemini by default). Yields text tokens as they arrive from the provider.
 
 import { AI_PROVIDERS, getModelFallbacks } from '../config/index.js'
+import { IPO_SYSTEM_PROMPT, ipoUserPrompt } from './prompts.js'
 
 export function isAiConfigured() {
   return AI_PROVIDERS.length > 0
@@ -57,42 +58,11 @@ function buildMessages(ipo) {
   return [
     {
       role: 'system',
-      content:
-        'You are a sharp equity research analyst specialising in Indian IPOs. ' +
-        'Given structured IPO data (grey market premium, platform rating, subscription, ' +
-        'P/E, anchor participation, issue size, dates and status), respond ONLY in the ' +
-        'exact markdown template below. Fill every bracketed placeholder using the data; ' +
-        'if a value is unavailable, write "N/A". For every AI Signal cell, choose exactly ' +
-        'ONE option from the slash-separated choices — never output the full list of ' +
-        'choices. When determining the AI Outlook (Apply/Watch/Avoid) and rationale, ' +
-        'factor in any recent news, sector developments, regulatory actions, or market ' +
-        'sentiment you are aware of about the company and its peers, alongside the ' +
-        'structured data. For the Fundamentals row use the ratingValue field (a 0–5 ' +
-        'platform score) as [rating]/5; only write N/A if ratingValue is missing. ' +
-        'Do not add extra sections, preamble, or text outside the ' +
-        'template. Keep the summary to two sentences.\n\n' +
-        '## AI IPO Summary\n\n' +
-        '**[Company Name] IPO:** AI analysis indicates **[Positive/Neutral/Cautious]** ' +
-        'sentiment based on live subscription demand, GMP movement, financial performance, ' +
-        'valuation, and key risks. Current confidence is **[High/Medium/Low]**.\n\n' +
-        '| Metric | Current Data | AI Signal |\n' +
-        '| --- | --- | --- |\n' +
-        '| Price Band | ₹[X–Y] | [Fair/Expensive] |\n' +
-        '| Subscription | [X]x | [Strong/Moderate/Weak] |\n' +
-        '| GMP | ₹[X] or [X]% | [Positive/Flat/Negative] |\n' +
-        '| Fundamentals | [rating]/5 | [Strong/Average/Weak] |\n' +
-        '| Valuation | P/E [X]x | [Attractive/Fair/High] |\n' +
-        '| Key Risk | [Short risk] | [Low/Medium/High] |\n' +
-        '| AI Outlook | [Apply/Watch/Avoid] | Confidence: [X]% |\n\n' +
-        '**AI rationale:** Strongest factor is **[factor]**, while the main concern is ' +
-        '**[risk]**. Recent news check: **[one-line recent development or "No major recent news"]**. ' +
-        'GMP should be treated as an unofficial sentiment indicator rather ' +
-        'than a guaranteed listing outcome.\n\n' +
-        '*Disclaimer: Automated analysis, not investment advice.*'
+      content: IPO_SYSTEM_PROMPT
     },
     {
       role: 'user',
-      content: `Analyze this IPO:\n${JSON.stringify(facts, null, 2)}`
+      content: ipoUserPrompt(facts)
     }
   ]
 }
@@ -110,20 +80,49 @@ export async function* streamAnalysis(ipo, model) {
 // with backoff, falls back across the configured models (starting with the
 // selected one), and caches the full result by key. Output is cached per model
 // since different models produce different text.
-export async function* streamCompletion(messages, key, selectedModel) {
+export async function* streamCompletion(messages, key, selectedModel, options = {}) {
+  const { noCache = false } = options
   const fallbacks = getModelFallbacks(selectedModel)
+  // The model the user actually chose (first in the fallback list). We surface
+  // its error rather than a fallback's, so the message matches their selection.
+  const primaryModel = fallbacks[0]?.model
   const cacheId = `${selectedModel || 'default'}:${key}`
-  const cached = getCached(cacheId)
-  if (cached) {
-    yield cached
-    return
+  if (!noCache) {
+    const cached = getCached(cacheId)
+    if (cached) {
+      yield cached
+      return
+    }
   }
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+  // Upstream statuses worth retrying: rate limits (429), and transient server
+  // errors / gateway failures (500/502/503/504) that AI providers emit under load.
+  const isTransient = (status) =>
+    status === 429 || status === 500 || status === 502 || status === 503 || status === 504
+  // Abort a request that STALLS (no bytes for this long) so a hung provider
+  // doesn't cause a platform 502. This is an idle timeout — it resets on every
+  // received token, so slow-but-active long streams (e.g. best-pick) aren't cut off.
+  const REQUEST_TIMEOUT_MS = Number(process.env.AI_REQUEST_TIMEOUT_MS) || 45000
   let lastError = null
+  // The error from the user's selected model, kept separate so a later fallback
+  // failure (e.g. a rate-limited gemini) doesn't overwrite what the user sees.
+  let primaryError = null
+  // Once we've yielded any token to the consumer we can't cleanly retry or fall
+  // back (it would duplicate output), so a mid-stream failure past this point
+  // must be surfaced rather than retried.
+  let emitted = false
 
   for (const { model, apiKey, baseUrl } of fallbacks) {
+    const isPrimary = model === primaryModel
     for (let attempt = 0; attempt < 3; attempt++) {
+      const controller = new AbortController()
+      let timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+      // Reset the idle timer whenever we make progress (response starts / a token arrives).
+      const bumpTimeout = () => {
+        clearTimeout(timer)
+        timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+      }
       let upstream
       try {
         upstream = await fetch(`${baseUrl}/chat/completions`, {
@@ -132,29 +131,62 @@ export async function* streamCompletion(messages, key, selectedModel) {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`
           },
-          body: JSON.stringify({ model, messages, temperature: 0.4, stream: true })
+          body: JSON.stringify({ model, messages, temperature: 0.4, stream: true }),
+          signal: controller.signal
         })
       } catch (err) {
-        lastError = new Error(`Network error contacting AI provider: ${err.message}`)
+        clearTimeout(timer)
+        // Node wraps the real reason in `err.cause` (DNS, TLS, ECONNREFUSED,
+        // timeout/abort). Surface it so "fetch failed" isn't opaque.
+        const reason = err.name === 'AbortError'
+          ? `request timed out or was aborted after ${REQUEST_TIMEOUT_MS}ms`
+          : (err.cause?.message || err.cause?.code || err.message)
+        lastError = new Error(`Network error contacting AI provider (${model}): ${reason}`)
+        if (isPrimary) primaryError = lastError
         await sleep(500 * (attempt + 1))
         continue
       }
 
       if (upstream.ok && upstream.body) {
         let full = ''
-        for await (const token of readStream(upstream.body)) {
-          full += token
-          yield token
+        try {
+          for await (const token of readStream(upstream.body)) {
+            bumpTimeout()
+            full += token
+            emitted = true
+            yield token
+          }
+        } catch (err) {
+          clearTimeout(timer)
+          lastError = new Error(`AI stream interrupted on ${model}: ${err.message}`)
+          if (isPrimary) primaryError = lastError
+          // Already sent partial output — can't retry without duplicating.
+          if (emitted) throw lastError
+          await sleep(600 * (attempt + 1))
+          continue
         }
-        setCached(cacheId, full)
+        clearTimeout(timer)
+
+        // A 200 with no tokens (safety block, SSE error event, or empty body):
+        // don't cache/return the empty result — retry, then fall back.
+        if (!full) {
+          lastError = new Error(`AI returned an empty response on ${model}.`)
+          if (isPrimary) primaryError = lastError
+          await sleep(600 * (attempt + 1))
+          continue
+        }
+
+        if (!noCache) setCached(cacheId, full)
         return
       }
 
+      clearTimeout(timer)
       const detail = await upstream.text().catch(() => '')
       lastError = new Error(`AI request failed (${upstream.status}) on ${model}: ${detail}`)
+      if (isPrimary) primaryError = lastError
 
       // Transient — retry same model with backoff, then move to next model.
-      if (upstream.status === 503 || upstream.status === 429) {
+      if (isTransient(upstream.status)) {
         await sleep(600 * (attempt + 1))
         continue
       }
@@ -164,7 +196,7 @@ export async function* streamCompletion(messages, key, selectedModel) {
     }
   }
 
-  throw lastError ?? new Error('AI request failed: no models available.')
+  throw primaryError ?? lastError ?? new Error('AI request failed: no models available.')
 }
 
 // Parses an OpenAI-style SSE stream body and yields text tokens.
