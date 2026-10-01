@@ -1,4 +1,4 @@
-// App header: title, source link, live badge and refresh button.
+// App header: title, source link and live badge.
 
 import { ICONS } from '../constants/ui.js'
 import ModelSelector from './ModelSelector.jsx'
@@ -28,7 +28,7 @@ const HEADINGS = {
   }
 }
 
-export default function Header({ view = 'ipos', source, count, onRefresh, theme, onToggleTheme }) {
+export default function Header({ view = 'ipos', source, count, theme, onToggleTheme }) {
   const heading = HEADINGS[view] || HEADINGS.ipos
 
   return (
@@ -43,9 +43,6 @@ export default function Header({ view = 'ipos', source, count, onRefresh, theme,
       </p>
       <div className="header-actions">
         <ModelSelector />
-        {view === 'ipos' && (
-          <button className="refresh" onClick={onRefresh}>{ICONS.refresh} Refresh</button>
-        )}
         <button
           className="theme-toggle"
           onClick={onToggleTheme}

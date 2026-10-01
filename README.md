@@ -1,4 +1,4 @@
-# IPO Analyzer
+# StockSense
 
 A React (Vite) single-page app that lists Indian IPOs from the
 [InvestorGain Live IPO GMP](https://www.investorgain.com/report/ipo-gmp-live/331/)
@@ -17,11 +17,12 @@ analysis is automated and **not investment advice**.
 
 ## Main capabilities
 
-- List IPOs as cards with search + filters (All / IPO / SME / status).
-- Persist every IPO ever seen so closed/listed IPOs remain browsable.
-- AI IPO analysis via an OpenAI-compatible streaming endpoint (Gemini by default).
+- List live IPOs as cards with search + filters (All / Open / Mainboard / SME / status).
+- AI IPO analysis via OpenAI-compatible streaming endpoints.
 - Trending stocks (NSE top gainers/losers) with a daily snapshot and history.
+- AI "best pick" analysis over the trending list.
 - AI fundamental analysis for any listed stock by name or ticker.
+- Switch AI provider/model from a UI dropdown (choice persisted to `localStorage`).
 - Light/dark theme, view persisted to `localStorage`.
 
 ## Technology stack
@@ -55,18 +56,23 @@ repository root for local overrides. `.env` is git-ignored.
 
 ### Environment variables
 
-All values below are placeholders — do not commit real secrets.
+All values below are placeholders — do not commit real secrets. AI is
+multi-provider: a provider becomes active only when BOTH its API key and its
+comma-separated models list are set. Every active model appears in the UI
+dropdown.
 
 | Variable | Purpose | Example |
 |---|---|---|
 | `PORT` | Local proxy port | `8787` |
-| `AI_API_KEY` | AI provider API key (also accepts `GEMINI_API_KEY`) | `your-api-key` |
-| `AI_BASE_URL` | OpenAI-compatible base URL | `https://generativelanguage.googleapis.com/v1beta/openai` |
-| `AI_MODELS` | Comma-separated model fallback list (also `AI_MODEL`) | `gemini-2.5-flash` |
+| `GROQ_API_KEY` / `GROQ_BASE_URL` / `GROQ_MODELS` | Groq provider | key / `https://api.groq.com/openai/v1` / `llama-3.3-70b-versatile` |
+| `GEMINI_API_KEY` / `GEMINI_BASE_URL` / `GEMINI_MODELS` | Gemini provider | key / default Gemini URL / `gemini-2.5-flash` |
+| `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODELS` | OpenAI provider | key / `https://api.openai.com/v1` / `gpt-4o-mini` |
+| `AI_API_KEY` / `AI_BASE_URL` / `AI_MODELS` (or `AI_MODEL`) | Generic OpenAI-compatible ("custom") provider | key / base URL / model list |
 | `AI_CACHE_TTL_MS` | AI response cache TTL in ms | `1800000` |
-| `VITE_OPENAI_API_KEY` | Referenced by the client for optional OpenAI use | `your-api-key` |
+| `AI_REQUEST_TIMEOUT_MS` | Idle timeout per AI stream (ms) | `45000` |
 
-> If no AI key is configured, AI IPO/stock analysis endpoints return `503`.
+> Each provider's `BASE_URL` has a sensible default; only the key + models are
+> strictly required. If no provider is active, AI endpoints return `503`.
 
 ## Commands
 
@@ -96,10 +102,11 @@ npm run dev
 Open http://localhost:5173. The Vite dev server proxies `/api` to
 `http://localhost:8787` (see `vite.config.js`).
 
-To enable AI analysis, add an AI key to `.env`:
+To enable AI analysis, configure at least one provider in `.env` (key + models):
 
 ```
-AI_API_KEY=your-api-key
+GEMINI_API_KEY=your-api-key
+GEMINI_MODELS=gemini-2.5-flash
 ```
 
 ## Troubleshooting
@@ -107,8 +114,8 @@ AI_API_KEY=your-api-key
 | Symptom | Likely cause / fix |
 |---|---|
 | "Could not reach the IPO proxy server." | Proxy not running — run `npm run server`. |
-| AI analysis returns 503 | `AI_API_KEY` not set. |
-| Empty IPO list / `source: "cache"` or `"error"` | Upstream InvestorGain fetch failed; app falls back to stored data. |
+| AI analysis returns 503 | No AI provider active — set a provider's API key AND models. |
+| Empty IPO list / `source: "error"` | Upstream InvestorGain fetch failed (IPO data is fetched live, not persisted). |
 | Trending stocks fail | NSE may challenge the request; the service retries with a cookie handshake. |
 
 ## Documentation
@@ -120,6 +127,7 @@ AI_API_KEY=your-api-key
 ## Security
 
 - Never commit `.env` or API keys; `.env` is git-ignored.
+- AI provider keys are read server-side only and never exposed to the browser.
 - The proxy sets permissive CORS (`Access-Control-Allow-Origin: *`) — review
   before exposing publicly.
 - No authentication layer is present. **To be confirmed** whether one is intended.

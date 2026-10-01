@@ -21,14 +21,74 @@ const fmtTime = (iso) => {
   })
 }
 
+const fmtInt = (n) =>
+  n === null || n === undefined || Number.isNaN(n) ? '—' : Number(n).toLocaleString('en-IN')
+
+// NSE returns a literal "-" when a field has no value; treat it as empty.
+const clean = (v) => {
+  const s = (v ?? '').toString().trim()
+  return s === '-' ? '' : s
+}
+
 export default function TrendingHistoryModal({ stock, onClose }) {
   if (!stock) return null
 
   // Oldest first (chronological), numbered 1..n.
   const history = stock.history || []
+  const up = (stock.percentChange ?? 0) >= 0
+  const reason = clean(stock.reason)
+  const exDate = clean(stock.reasonExDate)
 
   return (
-    <Modal title={`% Change History · ${stock.symbol}`} onClose={onClose}>
+    <Modal title={`${stock.symbol} · Details`} onClose={onClose}>
+      <dl className="trending-details">
+        <div>
+          <dt>LTP</dt>
+          <dd>
+            {fmtNum(stock.ltp)}{' '}
+            <span className={up ? 'pos' : 'neg'}>
+              ({up ? ICONS.up : ICONS.down} {fmtNum(stock.percentChange)}%)
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>Day Range</dt>
+          <dd>
+            <span className="pos" title="Day High">H {fmtNum(stock.high)}</span>{' '}
+            <span className="neg" title="Day Low">L {fmtNum(stock.low)}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Open</dt>
+          <dd>{fmtNum(stock.open)}</dd>
+        </div>
+        <div>
+          <dt>Prev Close</dt>
+          <dd>{fmtNum(stock.prevClose)}</dd>
+        </div>
+        <div>
+          <dt>Volume</dt>
+          <dd>{fmtInt(stock.volume)}</dd>
+        </div>
+        <div>
+          <dt>Turnover (₹ L)</dt>
+          <dd>{fmtNum(stock.turnover)}</dd>
+        </div>
+        <div>
+          <dt>Created</dt>
+          <dd>{fmtTime(stock.createdAt)}</dd>
+        </div>
+        <div>
+          <dt>Modified</dt>
+          <dd>{fmtTime(stock.modifiedAt)}</dd>
+        </div>
+        <div>
+          <dt>Reason (Trending)</dt>
+          <dd>{reason ? (exDate ? `${reason} · Ex-date: ${exDate}` : reason) : '—'}</dd>
+        </div>
+      </dl>
+
+      <h4 className="trending-details-head">% Change History</h4>
       {!history.length ? (
         <p className="info">No history recorded yet for this stock.</p>
       ) : (

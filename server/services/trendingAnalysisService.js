@@ -59,10 +59,14 @@ function availableStocks(stocks) {
   return (Array.isArray(stocks) ? stocks : []).filter((s) => !s?.stale)
 }
 
+// Short cache for the best-pick analysis. Trending snapshots refresh frequently,
+// so a brief window dedupes repeated clicks without serving stale picks.
+const BEST_PICK_CACHE_TTL_MS = 1 * 60 * 1000
+
 // Async generator that yields markdown chunks for the best-pick analysis.
 export async function* streamTrendingAnalysis(type, stocks, model) {
   const fresh = availableStocks(stocks)
-  yield* streamCompletion(buildMessages(type, fresh), cacheKey(type, fresh), model, { noCache: true })
+  yield* streamCompletion(buildMessages(type, fresh), cacheKey(type, fresh), model, { ttl: BEST_PICK_CACHE_TTL_MS })
 }
 
 // Ask the AI to pick the best `limit` stocks from the trending list and return

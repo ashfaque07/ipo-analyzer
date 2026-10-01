@@ -1,4 +1,4 @@
-# Copilot Instructions — IPO Analyzer
+# Copilot Instructions — StockSense
 
 React (Vite) SPA + Node proxy that normalizes third-party IPO/stock data and
 adds AI analysis. The same service layer runs locally (`server/index.js`) and on
@@ -21,10 +21,12 @@ For detail see [ARCHITECTURE.md](../ARCHITECTURE.md),
 
 ## Conventions
 
-- Add configuration constants and env wiring to `server/config/index.js`.
-- Read secrets from env (`AI_API_KEY`); never hardcode or commit keys. `.env` is git-ignored.
-- Reuse `streamCompletion` in `server/services/analysisService.js` for any new AI
-  feature — do not duplicate fetch/retry/fallback logic.
+- Add configuration constants and AI provider/model config to `server/config/index.js`.
+- Read secrets from env (`*_API_KEY`); never hardcode or commit keys. `.env` is git-ignored.
+  An AI provider is active only when its `*_API_KEY` AND `*_MODELS` are set.
+- Reuse `streamCompletion(messages, key, selectedModel, options)` in
+  `server/services/analysisService.js` for any new AI feature — do not duplicate
+  fetch/retry/fallback logic. Put prompt templates in `server/services/prompts.js`.
 - Wrap external calls in `try/catch` with retry/backoff and graceful fallback;
   return structured error payloads (e.g. `{ source: 'error', error }`) with correct
   status codes (`400`/`405`/`502`/`503`).
@@ -40,16 +42,18 @@ For detail see [ARCHITECTURE.md](../ARCHITECTURE.md),
 |---|---|
 | IPO field parsing | `server/models/ipo.js`, `server/utils/parsers.js` |
 | API route | `server/routes/router.js`, `netlify/functions/api.js`, controller |
-| AI prompt/output | `server/services/analysisService.js` / `stockAnalysisService.js` |
-| Storage behavior | `server/repositories/*.js`, `server/config/index.js` |
+| AI prompt/output | `server/services/prompts.js` + relevant analysis service |
+| AI provider/model | `server/config/index.js`, `.env` (`*_API_KEY`, `*_MODELS`) |
+| Trending storage | `server/repositories/trendingRepository.js`, `server/config/index.js` |
 | Trending schedule | `netlify/functions/trending-refresh.js`, `server/services/trendingService.js` |
-| UI view/filter | `src/App.jsx`, `src/components/*`, `src/constants/filters.js` |
+| UI view/filter/icon | `src/App.jsx`, `src/components/*`, `src/constants/ui.js` |
 
 ## Ignore
 
-`node_modules/`, `dist/`, `.env`, and `server/data/*.json` (runtime data, not source of truth).
+`node_modules/`, `dist/`, `.env`, and `server/data/*.json` (runtime trending data, not source of truth).
 
 ## Not present (do not invent)
 
-No test, lint, or formatter configuration exists. No auth layer. Do not add
-commands, env vars, or tooling that aren't in the repo without asking.
+No test, lint, or formatter configuration exists. No auth layer. IPO data is
+fetched live (not persisted). Do not add commands, env vars, or tooling that
+aren't in the repo without asking.

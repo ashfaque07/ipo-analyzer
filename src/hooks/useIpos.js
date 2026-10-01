@@ -7,8 +7,8 @@ import { FILTERS } from '../constants/ui.js'
 function matchesFilter(ipo, filter) {
   return (
     filter === 'All' ||
-    (filter === 'IPO' && /IPO|Mainboard/i.test(ipo.type)) ||
-    (filter === 'SME' && /SME/i.test(ipo.type)) ||
+    (filter === 'Mainboard' && /IPO|Mainboard/i.test(ipo.type) && ipo.status === 'Open') ||
+    (filter === 'SME' && /SME/i.test(ipo.type) && ipo.status === 'Open') ||
     ipo.status === filter
   )
 }
@@ -66,7 +66,6 @@ export function useIpos() {
     search,
     setSearch,
     filtered,
-    counts,
-    reload: load
+    counts
   }
 }

@@ -96,8 +96,11 @@ or use a `tests/` folder and document the command in [README.md](README.md).
 ## Guidance for AI coding assistants
 
 - Follow existing layering; do not put business logic in controllers or components.
-- Reuse `streamCompletion` for any new AI feature rather than duplicating fetch/retry logic.
-- Add configuration constants to `server/config/index.js`; read secrets from env.
+- Reuse `streamCompletion(messages, key, selectedModel, options)` in
+  `analysisService.js` for any new AI feature rather than duplicating fetch/retry logic.
+- Put fixed markdown prompt templates in `server/services/prompts.js`.
+- Add AI providers/models and other config to `server/config/index.js`; read
+  secrets from env (`*_API_KEY`). A provider is active only with a key AND models.
 - Preserve the fixed markdown prompt templates unless explicitly changing output format.
 - Match existing style: ESM, camelCase, leading module comment, extension-qualified imports.
 - Ignore generated folders (`node_modules`, `dist`) and never commit `.env`.
@@ -107,10 +110,11 @@ or use a `tests/` folder and document the command in [README.md](README.md).
 Structured fallback (from `ipoService.js`):
 
 ```js
-const stored = await readStore()
-if (stored.length) {
-  return { source: 'cache', count: stored.length, ipos: stored }
+const live = await fetchLiveRows()
+if (live) {
+  return { source: 'live', count: live.length, ipos: live }
 }
+return { source: 'error', count: 0, ipos: [], error: '...' }
 ```
 
 Thin controller (from `ipoController.js`):

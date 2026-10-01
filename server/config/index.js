@@ -127,15 +127,16 @@ export function getModelConfig(model) {
   return AI_MODELS.find((m) => m.model === model) || null
 }
 
-// Ordered list of model configs to try for a request. When the user explicitly
-// selects a model, ONLY that model is used (no fallback) so the result and any
-// error reflect exactly their choice. When nothing is selected, the default
-// model is used on its own as well.
+// Ordered list of model configs to try for a request. The selected model is
+// tried first; if it fails (rate-limit / overload / error) the remaining
+// configured models are tried as fallbacks. When nothing is selected (e.g.
+// background tasks like the trending best-pick recommendation), every
+// configured model is tried in order. Either way `streamCompletion` surfaces
+// the primary (selected) model's error so the message matches the user's choice.
 export function getModelFallbacks(selected) {
   const chosen = getModelConfig(selected)
-  if (chosen) return [chosen]
-  const fallback = AI_MODELS[0]
-  return fallback ? [fallback] : []
+  if (!chosen) return AI_MODELS
+  return [chosen, ...AI_MODELS.filter((m) => m.model !== chosen.model)]
 }
 
 // Maps InvestorGain status codes to human-readable labels.
@@ -144,5 +145,6 @@ export const STATUS_MAP = {
   O: 'Open',
   CT: 'Closing Today',
   C: 'Closed',
-  L: 'Listed'
+  LP: 'Listed',
+  LN: 'Listed'
 }

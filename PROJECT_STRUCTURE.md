@@ -5,7 +5,7 @@ Related docs: [README.md](README.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [C
 ## Directory tree
 
 ```
-ipo-analyzer/
+stocksense/
 ├─ index.html                  # Vite HTML entry
 ├─ vite.config.js              # Vite config + /api dev proxy
 ├─ netlify.toml                # Netlify build, functions, redirects
@@ -16,21 +16,21 @@ ipo-analyzer/
 │     └─ trending-refresh.js   # Scheduled cron: refresh trending snapshot
 ├─ server/                     # Local proxy (layered backend)
 │  ├─ index.js                 # HTTP server bootstrap
-│  ├─ config/index.js          # Constants + env wiring + serverless detection
-│  ├─ controllers/             # HTTP response mapping
-│  ├─ services/                # Business logic (fetch, normalize, AI, market)
-│  ├─ repositories/            # Persistence (Netlify Blobs / JSON)
+│  ├─ config/index.js          # Constants + multi-provider AI config + serverless detection
+│  ├─ controllers/             # HTTP response mapping (ipo, analysis, stock, trending, trending-analysis, models)
+│  ├─ services/                # Business logic (fetch, normalize, AI, market); prompts.js holds prompt templates
+│  ├─ repositories/            # Trending + holiday persistence (Netlify Blobs / JSON)
 │  ├─ models/ipo.js            # Raw row → clean IPO
 │  ├─ routes/router.js         # URL-prefix routing + CORS
 │  ├─ utils/                   # html.js, parsers.js
-│  └─ data/                    # Local JSON stores (ipos.json, trending.json)
+│  └─ data/                    # Local JSON store (trending.json)
 └─ src/                        # React frontend
    ├─ main.jsx                 # React entry point
    ├─ App.jsx                  # Root composition
-   ├─ components/              # UI components
+   ├─ components/              # UI components (incl. Modal, ModelSelector)
    ├─ hooks/                   # Data + state hooks
-   ├─ services/               # API clients
-   ├─ constants/filters.js     # Filter options
+   ├─ services/               # API clients (incl. modelApi.js)
+   ├─ constants/ui.js          # FILTERS + ICONS
    └─ styles/styles.css        # App styles
 ```
 
@@ -42,8 +42,8 @@ ipo-analyzer/
 | `server/` | Local Node proxy sharing the service layer |
 | `server/config/` | Centralized constants and env configuration |
 | `server/controllers/` | Thin HTTP adapters over services |
-| `server/services/` | Core business logic and external integrations |
-| `server/repositories/` | Storage backends (Blobs vs local JSON) |
+| `server/services/` | Core business logic, AI streaming, and external integrations |
+| `server/repositories/` | Storage backends for trending/holidays (Blobs vs local JSON) |
 | `server/models/` | Data normalization |
 | `server/utils/` | Parsing/decoding helpers |
 | `src/components/` | React UI |
@@ -65,11 +65,14 @@ ipo-analyzer/
 |---|---|
 | Controllers | `server/controllers/*.js` |
 | Services | `server/services/*.js` |
+| AI prompt templates | `server/services/prompts.js` |
+| AI provider/model config | `server/config/index.js` (`AI_PROVIDERS`, `AI_MODELS`) |
 | Repositories | `server/repositories/*.js` |
 | Models | `server/models/ipo.js` |
 | Utilities | `server/utils/{html,parsers}.js` |
 | Configuration | `server/config/index.js`, `netlify.toml`, `vite.config.js` |
 | Frontend API clients | `src/services/*.js` |
+| UI constants (filters, icons) | `src/constants/ui.js` |
 | Scripts | `package.json` (`scripts`) |
 | Tests | None present — **To be confirmed** |
 
@@ -79,17 +82,18 @@ ipo-analyzer/
 |---|---|
 | Change IPO field parsing | `server/models/ipo.js`, `server/utils/parsers.js` |
 | Add/adjust an API route | `server/routes/router.js`, `netlify/functions/api.js`, matching controller |
-| Modify AI prompt/output | `server/services/analysisService.js` or `stockAnalysisService.js` |
-| Change storage behavior | `server/repositories/*.js`, `server/config/index.js` |
+| Modify AI prompt/output | `server/services/prompts.js` (templates) + relevant analysis service |
+| Add an AI provider/model | `server/config/index.js` + `.env` (`*_API_KEY`, `*_MODELS`) |
+| Change trending snapshot storage | `server/repositories/trendingRepository.js`, `server/config/index.js` |
 | Adjust trending schedule/gating | `netlify/functions/trending-refresh.js`, `server/services/trendingService.js` |
-| Add a UI view/filter | `src/App.jsx`, `src/components/*`, `src/constants/filters.js` |
+| Add a UI view/filter/icon | `src/App.jsx`, `src/components/*`, `src/constants/ui.js` |
 | Add config/env var | `server/config/index.js`, `README.md` (env table) |
 
 ## What AI assistants should ignore
 
 - `node_modules/`, `dist/` (generated).
 - `.env` and any real secrets.
-- `server/data/*.json` runtime data — do not treat as source of truth.
+- `server/data/*.json` runtime data (trending snapshot) — do not treat as source of truth.
 
 ## Locating code before a change
 

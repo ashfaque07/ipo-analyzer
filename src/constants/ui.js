@@ -1,22 +1,21 @@
 // Shared UI constants.
 
-export const FILTERS = ['All', 'Open', 'Upcoming', 'Closing Today', 'Closed', 'Listed', 'IPO', 'SME']
+export const FILTERS = ['All', 'Open', 'Mainboard', 'SME', 'Closing Today', 'Upcoming', 'Closed', 'Listed']
 
 // Single source of truth for every icon/emoji used across the UI.
 // Change an icon here once to update it everywhere it is used.
 export const ICONS = {
   ai: '✨',
-  ipos: '📈',
+  ipos: '🚀',
   trending: '🔥',
-  stocks: '🏦',
-  refresh: '↻',
-  light: '☀️',
-  dark: '🌙',
+  stocks: '💹',
+  light: '🌞',
+  dark: '🌜',
   close: '✕',
-  cursor: '▍',
-  search: '🔍',
-  yes: '✅',
-  no: '❌',
+  cursor: '▋',
+  search: '🔎',
+  yes: '✔️',
+  no: '✖️',
   up: '▲',
   down: '▼'
 }

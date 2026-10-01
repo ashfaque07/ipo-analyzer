@@ -48,8 +48,8 @@ function getCached(key) {
   return entry.text
 }
 
-function setCached(key, text) {
-  if (text) cache.set(key, { text, expires: Date.now() + CACHE_TTL_MS })
+function setCached(key, text, ttl = CACHE_TTL_MS) {
+  if (text) cache.set(key, { text, expires: Date.now() + ttl })
 }
 
 function buildMessages(ipo) {
@@ -81,7 +81,7 @@ export async function* streamAnalysis(ipo, model) {
 // selected one), and caches the full result by key. Output is cached per model
 // since different models produce different text.
 export async function* streamCompletion(messages, key, selectedModel, options = {}) {
-  const { noCache = false } = options
+  const { noCache = false, ttl = CACHE_TTL_MS } = options
   const fallbacks = getModelFallbacks(selectedModel)
   // The model the user actually chose (first in the fallback list). We surface
   // its error rather than a fallback's, so the message matches their selection.
@@ -176,7 +176,7 @@ export async function* streamCompletion(messages, key, selectedModel, options = 
           continue
         }
 
-        if (!noCache) setCached(cacheId, full)
+        if (!noCache) setCached(cacheId, full, ttl)
         return
       }
 

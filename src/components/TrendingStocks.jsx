@@ -157,7 +157,7 @@ export default function TrendingStocks() {
         </div>
         <div className="trending-meta">
           {marketOpen ? (
-            <span className="badge" title="NSE market is open">LIVE</span>
+            <span className="badge" title="NSE market is open">Live</span>
           ) : (
             <span className="market-status closed" title="NSE market is closed">
               <span className="market-dot" />

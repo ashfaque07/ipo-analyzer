@@ -12,7 +12,7 @@ import { ICONS } from './constants/ui.js'
 import { useState, useEffect } from 'react'
 
 export default function App() {
-  const { ipos, source, loading, error, filter, setFilter, search, setSearch, filtered, counts, reload } = useIpos()
+  const { ipos, source, loading, error, filter, setFilter, search, setSearch, filtered, counts } = useIpos()
   const { analysis, analyzing, streaming, analyze, close } = useAnalysis()
   const { theme, toggle } = useTheme()
   const [view, setView] = useState(() => {
@@ -33,7 +33,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header source={source} count={ipos.length} onRefresh={reload} theme={theme} onToggleTheme={toggle} view={view} />
+      <Header source={source} count={ipos.length} theme={theme} onToggleTheme={toggle} view={view} />
 
       <nav className="view-nav">
         <button
