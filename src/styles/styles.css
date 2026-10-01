@@ -506,7 +506,7 @@ h1 {
 /* Prevent markdown content from forcing horizontal scroll inside modals */
 .summary.markdown { overflow-wrap: break-word; word-break: break-word; }
 .summary.markdown pre { overflow-x: auto; max-width: 100%; }
-.summary.markdown table { display: block; overflow-x: auto; max-width: 100%; }
+.summary.markdown table { display: table; width: 100%; max-width: 100%; }
 .summary.markdown img { max-width: 100%; height: auto; }
 
 @media (prefers-reduced-motion: reduce) {
